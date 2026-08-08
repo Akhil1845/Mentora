@@ -1,0 +1,102 @@
+# Mentora Mission
+
+## Mission Statement
+
+Mentora's mission is to make learning to code more interactive, understandable, and personalized by providing students with an AI-powered coding mentor.
+
+Instead of simply generating solutions, Mentora guides students through the process of understanding concepts, writing code, solving problems, learning from mistakes, and building strong programming skills.
+
+---
+
+## What We Do
+
+Mentora helps students learn programming through:
+
+- AI-powered coding guidance
+- Concept explanations
+- Interactive code and algorithm visualizations
+- Structured AI-generated lessons
+- Personalized coding tasks
+- Code execution and testing
+- Intelligent code evaluation
+- Debugging assistance
+- Step-by-step hints
+- Progress and skill tracking
+- Adaptive learning paths
+- Coding challenges and missions
+
+Mentora will initially focus on core programming concepts and gradually expand to multiple programming languages, Data Structures and Algorithms, problem solving, and technical interview preparation.
+
+---
+
+## Our Promise
+
+Mentora should never be just a tool that gives students the answer.
+
+It should help students understand **why** a solution works and guide them toward solving problems independently.
+
+When a student makes a mistake, Mentora should help them understand the mistake, provide an appropriate hint, and encourage them to try again before revealing a complete solution.
+
+---
+
+## Core Values
+
+### Learn, Don't Just Copy
+
+The purpose of Mentora is to build programming ability rather than encourage students to blindly copy AI-generated code.
+
+### Student First
+
+Every feature should solve a genuine problem faced by students learning to code.
+
+### Simplicity
+
+Complex programming concepts should be presented in a simple and understandable way.
+
+### Practice Through Doing
+
+Students should learn by writing, running, testing, and improving their own code.
+
+### Personalization
+
+Learning should adapt to each student's current knowledge, performance, mistakes, and progress.
+
+### Visual Learning
+
+Abstract programming concepts should be made easier to understand through interactive visualizations and step-by-step demonstrations.
+
+### Trust
+
+Student data, code, learning history, and personal information should be handled securely and responsibly.
+
+### Continuous Improvement
+
+Mentora should continuously improve its teaching methods, AI capabilities, learning content, and user experience.
+
+---
+
+## Our Commitment
+
+We are committed to building Mentora as a long-term AI coding learning platform that can guide a student from their first programming concept to advanced problem solving.
+
+Mentora will continuously expand its capabilities while keeping its central purpose unchanged:
+
+> **Help students learn to code, not simply get code.**
+
+---
+
+## Success Definition
+
+Mentora succeeds when students can use the platform to:
+
+1. Understand programming concepts clearly.
+2. Visualize how code and algorithms work.
+3. Practice concepts through meaningful coding tasks.
+4. Identify and understand their mistakes.
+5. Improve through personalized feedback.
+6. Track their programming progress.
+7. Solve increasingly difficult problems independently.
+
+The ultimate measure of Mentora's success is not how many solutions the AI generates.
+
+It is how much the **student improves**.

@@ -1,0 +1,1103 @@
+# Product Requirements Document (PRD)
+
+# Mentora
+
+Version: 2.1
+
+Status: Draft
+
+Author: Akhil
+
+Date: August 2026
+
+---
+
+# Table of Contents
+
+1. Product Overview
+2. Problem Statement
+3. Vision
+4. Mission
+5. Objectives
+6. Target Audience
+7. User Personas
+8. User Journey
+9. Core Modules
+10. Functional Requirements
+11. Non-Functional Requirements
+12. Technology Stack
+13. Product Architecture
+14. User Roles
+15. Future Scope
+16. Success Metrics
+17. Risks
+18. Appendix
+
+---
+
+# 1. Product Overview
+
+Mentora is an AI-powered coding learning platform designed to help students learn programming through interactive, personalized, and practice-oriented learning.
+
+Unlike general-purpose AI assistants that primarily focus on answering questions or generating code, Mentora focuses on helping students understand concepts, independently write code, solve problems, identify mistakes, and improve their programming skills.
+
+Mentora combines:
+
+- AI-powered coding mentorship
+- Structured programming lessons
+- Interactive code visualizations
+- Coding practice
+- Code editor and compiler
+- Code execution
+- Automated test-case evaluation
+- AI-powered post-submission analysis
+- Error and mistake explanation
+- Personalized learning feedback
+- Progress tracking
+- Adaptive learning paths
+- Coding missions and challenges
+
+The platform is designed to support students from beginner-level programming concepts to advanced problem solving.
+
+The long-term goal is to create an AI coding mentor that continuously adapts to each student's learning progress and helps them become independent programmers.
+
+---
+
+# 2. Problem Statement
+
+Learning programming can be difficult because many programming concepts are abstract and require both theoretical understanding and practical experience.
+
+Students commonly face problems such as:
+
+- Difficulty understanding programming concepts
+- Difficulty visualizing how code executes
+- Confusion when learning algorithms and data structures
+- Dependence on AI-generated solutions
+- Lack of personalized practice
+- Difficulty identifying mistakes in their code
+- Lack of meaningful feedback after solving problems
+- Difficulty deciding what topic to learn next
+- Inconsistent coding practice
+- Difficulty measuring actual programming improvement
+
+General-purpose AI tools can explain concepts and generate working code, but students may become dependent on receiving solutions instead of developing their own problem-solving ability.
+
+Mentora addresses this problem by focusing on the learning process rather than simply producing answers.
+
+The platform should encourage the student to independently think, write, test, and submit their solution.
+
+After submission, Mentora analyzes the result and explains the student's mistakes instead of immediately rewriting the solution for them.
+
+The core learning process is:
+
+**Understand → Visualize → Practice → Code → Run → Submit → Evaluate → Understand Mistake → Improve → Master**
+
+---
+
+# 3. Vision
+
+Refer to `01_Vision.md`.
+
+Mentora aims to become an intelligent AI-powered coding learning platform that helps students understand programming, visualize complex concepts, practice coding, and continuously improve their programming skills.
+
+---
+
+# 4. Mission
+
+Refer to `02_Mission.md`.
+
+Mentora's mission is to make learning to code more interactive, understandable, personalized, and practice-oriented through AI-powered mentorship.
+
+---
+
+# 5. Objectives
+
+Mentora aims to:
+
+- Provide personalized AI-powered coding guidance.
+- Help students understand programming concepts.
+- Visualize algorithms, data structures, and code execution.
+- Provide structured programming lessons.
+- Generate coding tasks based on student skill level.
+- Provide a secure coding playground.
+- Provide a compiler and code execution environment.
+- Execute and test student code.
+- Evaluate submitted solutions.
+- Identify compilation, runtime, logical, and performance issues.
+- Explain where an error occurred.
+- Explain what went wrong.
+- Explain why the error occurred.
+- Provide learning-oriented feedback after submission.
+- Avoid proactively suggesting code changes while the student is solving.
+- Encourage students to independently solve problems.
+- Track student learning progress.
+- Identify weak programming concepts.
+- Recommend appropriate next topics.
+- Gradually increase task difficulty.
+- Support multiple programming languages.
+- Reduce dependency on copying AI-generated solutions.
+
+---
+
+# 6. Target Audience
+
+Mentora primarily focuses on people who are learning or improving programming skills.
+
+## Primary Users
+
+### Beginner Programmers
+
+Students learning programming for the first time.
+
+Needs:
+
+- Simple explanations
+- Examples
+- Visualizations
+- Guided practice
+- Beginner-level tasks
+- Clear compiler feedback
+
+---
+
+### College Students
+
+Students studying Computer Science, Information Technology, AI, Data Science, and related disciplines.
+
+Needs:
+
+- Programming practice
+- Data Structures and Algorithms
+- Assignment support
+- Coding problem solving
+- Exam preparation
+- Interview preparation
+
+---
+
+### DSA Learners
+
+Students specifically preparing Data Structures and Algorithms.
+
+Needs:
+
+- Algorithm explanations
+- Visualizations
+- Coding problems
+- Complexity analysis
+- Difficulty progression
+- Mistake analysis
+
+---
+
+### Coding Interview Aspirants
+
+Students preparing for technical interviews.
+
+Needs:
+
+- Coding challenges
+- Timed practice
+- Interview-style problems
+- Code evaluation
+- Performance tracking
+- Detailed post-submission feedback
+
+---
+
+### Self-Learners
+
+Individuals learning programming independently.
+
+Needs:
+
+- Structured learning paths
+- Personalized guidance
+- Practice tasks
+- Progress tracking
+- Multiple programming languages
+
+---
+
+# 7. User Personas
+
+## Beginner Student
+
+### Goals
+
+- Learn their first programming language
+- Understand basic concepts
+- Practice simple coding problems
+- Build confidence
+
+### Challenges
+
+- Programming syntax
+- Understanding logic
+- Fear of errors
+- Difficulty understanding code execution
+
+### Mentora Solution
+
+Mentora provides simple explanations, visual demonstrations, coding tasks, compiler feedback, and beginner-friendly post-submission explanations.
+
+---
+
+## Intermediate Student
+
+### Goals
+
+- Improve problem-solving skills
+- Learn DSA
+- Solve increasingly difficult problems
+- Improve coding efficiency
+
+### Challenges
+
+- Difficulty moving beyond basic syntax
+- Weak algorithmic thinking
+- Difficulty debugging
+- Inconsistent practice
+
+### Mentora Solution
+
+Mentora provides adaptive tasks, algorithm visualizations, code execution, post-submission analysis, and targeted practice.
+
+---
+
+## Interview Aspirant
+
+### Goals
+
+- Prepare for technical interviews
+- Improve DSA
+- Practice coding under time constraints
+- Identify weak areas
+
+### Challenges
+
+- Lack of structured preparation
+- Difficulty selecting problems
+- Weakness in specific topics
+- Limited feedback
+
+### Mentora Solution
+
+Mentora provides coding missions, timed challenges, automated evaluation, performance analytics, and personalized recommendations.
+
+---
+
+# 8. User Journey
+
+## New Student Journey
+
+1. User visits Mentora.
+2. Creates an account.
+3. Selects a programming language.
+4. Selects their current skill level.
+5. Selects a learning goal.
+6. Mentora creates an initial learning path.
+7. Student starts the first lesson.
+8. Mentora explains the concept.
+9. Student interacts with examples and visualizations.
+10. Student receives a coding task.
+11. Student reads and understands the problem.
+12. Student independently writes the solution in the coding playground.
+13. Student runs the code to test their solution.
+14. Student submits the solution.
+15. Mentora's Code Engine compiles and executes the submission.
+16. The submission is tested against test cases.
+17. If the submission fails, the system identifies the type and location of the problem where possible.
+18. The AI Evaluation Engine explains what went wrong and why.
+19. Student reviews the feedback.
+20. Student modifies their own solution.
+21. Student submits again.
+22. Mentora records the result and attempt history.
+23. Student's skill profile is updated.
+24. Mentora recommends the next learning activity.
+
+---
+
+## Returning Student Journey
+
+1. Student signs in.
+2. Mentora loads the student's learning profile.
+3. Student sees current progress.
+4. Mentora recommends the next activity.
+5. Student continues learning or chooses another topic.
+6. Student solves coding tasks independently.
+7. Submissions are evaluated after submission.
+8. Performance is recorded after every activity.
+9. The learning path adapts based on performance.
+
+---
+
+# 9. Core Modules
+
+## 9.1 Authentication
+
+Provides:
+
+- Registration
+- Login
+- Logout
+- User profile
+- Password management
+- Authentication security
+
+---
+
+## 9.2 AI Coding Mentor
+
+The central conversational learning interface of Mentora.
+
+Capabilities:
+
+- Explain concepts
+- Answer coding questions
+- Explain existing code
+- Explain algorithms
+- Explain complexity
+- Guide students through learning concepts
+- Provide learning recommendations
+- Provide progressive hints when the student explicitly asks for help
+- Help students understand programming concepts
+
+The AI Mentor should prioritize teaching and guidance rather than immediately providing complete solutions.
+
+The AI Mentor and Code Engine have different responsibilities.
+
+The AI Mentor teaches.
+
+The Code Engine evaluates submitted code.
+
+---
+
+## 9.3 Learning Hub
+
+Provides structured programming lessons.
+
+Each lesson may contain:
+
+- Concept explanation
+- Example
+- Code demonstration
+- Visualization
+- Practice question
+- Mini quiz
+- Coding challenge
+
+---
+
+## 9.4 Visualization Engine
+
+Provides interactive visual explanations of programming concepts.
+
+Examples:
+
+- Arrays
+- Linked Lists
+- Stacks
+- Queues
+- Trees
+- Graphs
+- Sorting algorithms
+- Searching algorithms
+- Recursion
+- Pointer/reference movement
+- Code execution flow
+
+The system should eventually allow AI to generate visualization instructions from programming concepts or code.
+
+---
+
+## 9.5 Coding Playground
+
+The Coding Playground is the environment where students independently write and test their solutions.
+
+It provides:
+
+- Code editor
+- Language selection
+- Run button
+- Submit button
+- Input/output display
+- Compiler output
+- Runtime error display
+- Test-case results
+- Submission history
+
+### Important Learning Principle
+
+Mentora should not continuously watch the student's code and proactively suggest changes while they are solving a problem.
+
+The student should have the opportunity to think independently.
+
+The system provides detailed AI analysis primarily after submission.
+
+---
+
+## 9.6 Mentora Code Engine
+
+The Code Engine is responsible for compiling, executing, testing, and evaluating student submissions.
+
+It consists of several components:
+
+### Compiler
+
+Compiles the submitted code according to the selected programming language.
+
+### Execution Engine
+
+Runs compiled or interpreted code in a secure environment.
+
+### Test Engine
+
+Runs the submission against predefined test cases.
+
+### Result Analyzer
+
+Determines whether the solution:
+
+- Passed
+- Failed
+- Produced a compilation error
+- Produced a runtime error
+- Produced an incorrect output
+- Exceeded resource limits
+- Has a potential performance issue
+
+### AI Evaluation Engine
+
+After submission, AI analyzes the compiler and execution results and provides an understandable explanation.
+
+---
+
+## 9.7 AI Evaluation Engine
+
+The AI Evaluation Engine is a major differentiating feature of Mentora.
+
+It should analyze a student's submission after they submit it.
+
+It should identify, where possible:
+
+- Error location
+- Error type
+- Incorrect logic
+- Incorrect assumptions
+- Runtime problems
+- Edge-case failures
+- Performance issues
+- Failed test cases
+
+The AI should explain:
+
+### Where
+
+Where the problem occurred.
+
+### What
+
+What went wrong.
+
+### Why
+
+Why the student's approach produced the incorrect result.
+
+### Learning Feedback
+
+What programming concept the student should understand from the mistake.
+
+### Important Restriction
+
+The AI Evaluation Engine should not automatically replace the student's code with the correct solution.
+
+It should prioritize explanation and understanding.
+
+For example:
+
+Instead of:
+
+> "Replace `<=` with `<`."
+
+Mentora should explain:
+
+> "Your loop runs one iteration beyond the last valid array index. The array contains 5 elements, so its valid indexes are 0 through 4. At the final iteration, your program attempts to access index 5."
+
+The student should then determine the correction themselves.
+
+---
+
+## 9.8 Task Generator
+
+Generates coding tasks according to:
+
+- Programming language
+- Topic
+- Difficulty
+- Student skill level
+- Previous performance
+- Learning objective
+
+Example difficulty levels:
+
+- Beginner
+- Easy
+- Medium
+- Hard
+- Challenge
+
+---
+
+## 9.9 Code Evaluation Engine
+
+The Code Evaluation Engine evaluates submitted code based on:
+
+- Compilation
+- Correctness
+- Test cases
+- Runtime
+- Memory usage
+- Edge cases
+- Performance
+
+The system should distinguish between:
+
+- Accepted solution
+- Compilation error
+- Runtime error
+- Wrong answer
+- Time limit exceeded
+- Memory limit exceeded
+- Potential performance issue
+
+The evaluation process should occur after submission.
+
+---
+
+## 9.10 AI Debugging and Error Analysis
+
+Mentora analyzes submission results and explains:
+
+- Syntax errors
+- Compilation errors
+- Runtime errors
+- Logical mistakes
+- Incorrect assumptions
+- Edge-case failures
+- Performance problems
+
+The AI should explain the reason behind the failure rather than simply replacing the student's code.
+
+---
+
+## 9.11 Progressive Hint System
+
+The AI Mentor may provide progressive hints when a student explicitly requests help.
+
+Example:
+
+### Hint 1
+
+Small conceptual hint.
+
+### Hint 2
+
+More specific direction.
+
+### Hint 3
+
+Approach guidance.
+
+### Explanation
+
+Detailed explanation of the concept.
+
+The system should avoid immediately providing complete solutions when the student is learning.
+
+---
+
+## 9.12 Progress and Skill Tracking
+
+Mentora maintains a learning profile containing:
+
+- Topics studied
+- Tasks attempted
+- Tasks completed
+- Accuracy
+- Attempts
+- Difficulty level
+- Weak concepts
+- Strong concepts
+- Learning streak
+- Skill level
+- Submission history
+- Common mistake patterns
+
+Example:
+
+Java Arrays: 85%
+
+Java Strings: 72%
+
+Recursion: 41%
+
+Linked Lists: 55%
+
+Trees: 25%
+
+---
+
+## 9.13 Adaptive Learning Engine
+
+The system analyzes student performance and determines:
+
+- What the student understands
+- What the student struggles with
+- Which prerequisite needs improvement
+- What task should come next
+- Whether difficulty should increase or decrease
+- Whether a repeated mistake indicates a knowledge gap
+
+Example:
+
+If a student repeatedly struggles with recursion, Mentora may recommend additional recursion exercises before introducing advanced tree problems.
+
+---
+
+## 9.14 Coding Missions
+
+Missions provide structured progression.
+
+Example:
+
+### Java Fundamentals
+
+- Variables
+- Data Types
+- Conditions
+- Loops
+- Methods
+- Arrays
+
+### DSA Mission
+
+- Arrays
+- Strings
+- Linked Lists
+- Stack
+- Queue
+- Trees
+- Graphs
+- Dynamic Programming
+
+Students progress through missions by demonstrating understanding and completing tasks.
+
+---
+
+## 9.15 Analytics Dashboard
+
+Displays:
+
+- Learning progress
+- Topic mastery
+- Tasks completed
+- Accuracy
+- Difficulty progression
+- Weak areas
+- Strong areas
+- Coding activity
+- Submission history
+- Common mistakes
+- Recommended next topics
+
+---
+
+# 10. Functional Requirements
+
+## Authentication
+
+The system shall:
+
+- Allow users to register.
+- Allow users to log in.
+- Authenticate users securely.
+- Maintain user profiles.
+- Allow users to log out.
+
+---
+
+## AI Mentor
+
+The system shall:
+
+- Accept natural-language coding questions.
+- Explain programming concepts.
+- Explain code.
+- Provide hints when requested.
+- Guide students through coding problems.
+- Explain programming concepts using examples.
+- Recommend learning activities.
+- Maintain relevant conversation context.
+
+---
+
+## Lessons
+
+The system shall:
+
+- Provide structured programming lessons.
+- Explain concepts with examples.
+- Provide practice activities.
+- Connect lessons with coding tasks.
+- Track lesson completion.
+
+---
+
+## Visualization
+
+The system shall:
+
+- Visualize programming concepts.
+- Animate algorithm steps.
+- Visualize data structures.
+- Display code execution steps where supported.
+- Connect visualizations to learning content.
+
+---
+
+## Coding Playground
+
+The system shall:
+
+- Provide a code editor.
+- Allow students to select a programming language.
+- Allow students to run code.
+- Allow students to submit code.
+- Display program output.
+- Display compiler errors.
+- Display runtime errors.
+- Display test-case results.
+- Maintain submission history.
+
+---
+
+## Compiler and Code Execution
+
+The system shall:
+
+- Compile supported programming languages.
+- Execute submitted code.
+- Return compiler output.
+- Return runtime output.
+- Return runtime errors.
+- Apply execution time limits.
+- Apply memory/resource limits.
+- Execute code inside an isolated environment.
+
+---
+
+## Code Submission
+
+The system shall:
+
+- Accept student code only after the student chooses to submit.
+- Preserve the submitted code.
+- Associate the submission with the student and task.
+- Record submission time.
+- Record programming language.
+- Record execution result.
+- Record test-case results.
+- Maintain previous attempts.
+
+---
+
+## Code Evaluation
+
+The system shall:
+
+- Compile submitted code.
+- Execute test cases.
+- Determine correctness.
+- Detect compilation errors.
+- Detect runtime errors.
+- Detect incorrect outputs.
+- Detect time-limit violations where supported.
+- Detect memory-limit violations where supported.
+- Measure execution performance where supported.
+
+---
+
+## AI Post-Submission Analysis
+
+The system shall:
+
+- Analyze compiler results.
+- Analyze runtime results.
+- Analyze failed test cases.
+- Identify the likely error location where possible.
+- Identify the error type.
+- Explain what went wrong.
+- Explain why it went wrong.
+- Explain relevant programming concepts.
+- Identify repeated mistake patterns.
+- Provide learning-oriented feedback.
+
+The system should not automatically rewrite the student's code as the primary feedback.
+
+---
+
+## AI Evaluation Principle
+
+Mentora shall follow the following principle:
+
+> **The student thinks first. Mentora evaluates second.**
+
+The student should be allowed to independently write their solution.
+
+Mentora should not proactively suggest line-by-line corrections while the student is solving.
+
+After submission, Mentora should explain the student's mistakes and help them understand how to improve.
+
+---
+
+## Coding Tasks
+
+The system shall:
+
+- Generate coding tasks.
+- Categorize tasks by topic.
+- Categorize tasks by difficulty.
+- Assign tasks based on student performance.
+- Store task history.
+- Track attempts.
+
+---
+
+## Progress
+
+The system shall:
+
+- Record task attempts.
+- Record task results.
+- Track topic mastery.
+- Track student skill levels.
+- Identify weak areas.
+- Track repeated mistakes.
+- Recommend next learning activities.
+
+---
+
+## Adaptive Learning
+
+The system shall:
+
+- Analyze previous performance.
+- Adjust task difficulty.
+- Recommend prerequisite topics.
+- Recommend additional practice.
+- Generate personalized learning paths.
+
+---
+
+# 11. Non-Functional Requirements
+
+## Performance
+
+- Fast user interface response.
+- Efficient AI request handling.
+- Efficient code execution.
+- Scalable backend architecture.
+- Reasonable submission evaluation time.
+
+---
+
+## Security
+
+- Secure authentication.
+- Password hashing.
+- Authorization.
+- HTTPS in production.
+- Protection of user data.
+- Secure code execution environment.
+- Isolation of submitted code from the main application infrastructure.
+- Network restrictions for executed code.
+- CPU limits.
+- Memory limits.
+- Execution time limits.
+
+---
+
+## Reliability
+
+- Proper error handling.
+- Logging.
+- Database backups.
+- Recovery mechanisms.
+- Reliable code execution.
+- Reliable submission result storage.
+
+---
+
+## Usability
+
+- Simple interface.
+- Responsive design.
+- Clear navigation.
+- Accessible learning content.
+- Beginner-friendly explanations.
+- Clear compiler messages.
+- Understandable AI feedback.
+- Dark mode support.
+
+---
+
+## Maintainability
+
+- Modular backend.
+- Reusable frontend components.
+- Clean architecture.
+- API documentation.
+- Version control.
+- Automated testing.
+
+---
+
+# 12. Technology Stack
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- CSS / Tailwind CSS
+
+---
+
+## Backend
+
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Hibernate
+
+---
+
+## Database
+
+- MySQL
+
+The database will store:
+
+- Users
+- Topics
+- Lessons
+- Tasks
+- Submissions
+- Test cases
+- Evaluation results
+- Progress
+- Chat sessions
+- Learning paths
+- Mistake history
+
+---
+
+## AI Layer
+
+Mentora will use an AI service layer responsible for:
+
+- Coding explanations
+- Lesson generation
+- Task generation
+- Hint generation
+- Post-submission analysis
+- Error explanation
+- Code analysis
+- Mistake classification
+- Learning recommendations
+
+The AI provider should remain replaceable so that Mentora is not tightly coupled to one AI model.
+
+---
+
+## Code Execution
+
+A secure isolated execution environment will be required for running student code.
+
+The execution architecture should prevent submitted code from accessing:
+
+- Main application server
+- Database
+- Host filesystem
+- Internal services
+- Sensitive environment variables
+- Unauthorized network resources
+
+The execution environment should enforce:
+
+- CPU limits
+- Memory limits
+- Execution time limits
+- Process limits
+- Network restrictions
+
+---
+
+## Frontend Visualization
+
+Potential technologies:
+
+- React
+- SVG
+- Canvas
+- Animation libraries
+- Custom visualization components
+
+The final visualization technology will be selected during implementation.
+
+---
+
+# 13. Product Architecture
+
+Mentora will follow a modular architecture.
+
+```text
+                         MENTORA
+                            |
+              ┌─────────────┴─────────────┐
+              |                           |
+          FRONTEND                     BACKEND
+              |                           |
+       React + Vite                Spring Boot
+                                          |
+                         ┌────────────────┼────────────────┐
+                         |                |                |
+                       Auth          AI Layer        Code Engine
+                                          |                |
+                                          |          ┌─────┴─────┐
+                                          |          |           |
+                                          |       Compiler   Test Engine
+                                          |          |           |
+                                          |          └─────┬─────┘
+                                          |                |
+                                          |          Secure Sandbox
+                                          |
+                                   AI Services
+                                          |
+                         ┌────────────────┼────────────────┐
+                         |                |                |
+                     AI Mentor       AI Evaluator     Task Generator
+                         |                |
+                         └────────────────┘
+                                          |
+                                     Learning Engine
+                                          |
+                         ┌────────────────┼────────────────┐
+                         |                |                |
+                      Progress       Skill Tracking   Recommendations
+                                          |
+                                      Database
+                                          |
+                                         MySQL

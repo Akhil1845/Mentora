@@ -1,0 +1,117 @@
+# Mentora MVP
+
+Version: 1.0
+
+Status: Draft
+
+Author: Akhil
+
+Date: August 2026
+
+---
+
+# Table of Contents
+
+1. MVP Overview
+2. MVP Goal
+3. MVP Product Definition
+4. Target MVP User
+5. MVP Scope
+6. Core MVP Features
+7. MVP User Flow
+8. MVP Screens
+9. MVP AI Capabilities
+10. MVP Code Engine
+11. MVP Learning System
+12. MVP Database
+13. MVP Technology Stack
+14. MVP Architecture
+15. MVP Out of Scope
+16. MVP Success Criteria
+17. MVP Development Order
+18. MVP Release Criteria
+19. Future Expansion
+20. Conclusion
+
+---
+
+# 1. MVP Overview
+
+MVP stands for Minimum Viable Product.
+
+The Mentora MVP is the smallest complete version of the platform that demonstrates the core idea of an AI-powered coding mentor.
+
+The MVP will focus on one primary programming language and provide a complete learning-to-submission cycle.
+
+The student should be able to:
+
+- Learn a programming concept.
+- Ask Mentora questions.
+- Receive a coding problem.
+- Write their own solution.
+- Run the code.
+- Submit the code.
+- Receive compiler and test results.
+- Receive AI-powered feedback after submission.
+- Understand what went wrong.
+- Try again.
+- Track basic progress.
+
+---
+
+# 2. MVP Goal
+
+The primary goal of the MVP is to prove the following idea:
+
+> **Students can learn coding more effectively when AI teaches concepts and explains their mistakes after they independently submit solutions.**
+
+The MVP should not attempt to become a complete coding education platform immediately.
+
+It should focus on creating one strong and complete learning loop.
+
+---
+
+# 3. MVP Product Definition
+
+## Mentora MVP
+
+> **An AI-powered coding mentor where students learn programming concepts, independently solve coding problems, run and submit their code, and receive AI-powered explanations of their mistakes after submission.**
+
+The MVP will initially focus on:
+
+> **Java**
+
+Java is selected as the first programming language to keep the initial implementation focused and manageable.
+
+The architecture will be designed to support additional languages later.
+
+---
+
+# 4. Target MVP User
+
+The primary MVP user is:
+
+## College Student Learning Java
+
+The student may be:
+
+- A beginner learning Java.
+- A student practicing Java.
+- A student learning basic DSA.
+- A student preparing for coding interviews.
+
+The MVP will primarily focus on students who already want to learn programming and need structured guidance and feedback.
+
+---
+
+# 5. MVP Scope
+
+The MVP includes six major areas:
+
+```text
+1. Authentication
+2. AI Coding Mentor
+3. Learning Content
+4. Coding Playground
+5. Code Engine + AI Evaluation
+6. Basic Progress Tracking

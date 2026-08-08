@@ -1,0 +1,315 @@
+# Mentora Development Roadmap
+
+Version: 1.0
+
+Status: Draft
+
+Author: Akhil
+
+Date: August 2026
+
+---
+
+# Table of Contents
+
+1. Roadmap Overview
+2. Development Philosophy
+3. Phase 0 - Foundation
+4. Phase 1 - Core Coding Mentor
+5. Phase 2 - Code Engine
+6. Phase 3 - AI Evaluation
+7. Phase 4 - Learning System
+8. Phase 5 - Visualization
+9. Phase 6 - Multi-Language Support
+10. Phase 7 - Advanced AI Learning
+11. Phase 8 - AI Video Learning
+12. Phase 9 - Interview and Competitive Programming
+13. Long-Term Vision
+14. Release Strategy
+15. Roadmap Summary
+
+---
+
+# 1. Roadmap Overview
+
+Mentora will be developed incrementally.
+
+The initial goal is not to build every planned feature at once.
+
+The first objective is to create a working AI coding mentor where a student can:
+
+1. Learn a programming concept.
+2. Receive a coding problem.
+3. Write their own solution.
+4. Run the solution.
+5. Submit the solution.
+6. Receive compiler and test results.
+7. Receive AI-powered feedback explaining mistakes.
+8. Try again.
+9. Track their progress.
+
+Advanced capabilities such as interactive visualizations, adaptive learning, multiple programming languages, and AI-generated video lessons will be introduced progressively.
+
+---
+
+# 2. Development Philosophy
+
+Mentora development follows five principles.
+
+## 2.1 Build the Core First
+
+The first release should solve one clear problem:
+
+> Help students learn coding through guided practice and intelligent post-submission feedback.
+
+---
+
+## 2.2 Student Thinks First
+
+Mentora should not become an autocomplete tool.
+
+The student should independently attempt coding problems.
+
+AI should primarily:
+
+- Teach
+- Explain
+- Evaluate
+- Analyze
+- Guide
+
+---
+
+## 2.3 Add Complexity Gradually
+
+Features such as AI-generated videos and advanced adaptive learning should only be added after the basic coding experience is stable.
+
+---
+
+## 2.4 Validate Every Major Feature
+
+Each major module should be tested independently before being integrated into the complete platform.
+
+---
+
+## 2.5 Learn From Real Usage
+
+Future development decisions should be influenced by:
+
+- Student feedback
+- Task completion
+- Repeated mistakes
+- AI evaluation quality
+- System performance
+- User engagement
+
+---
+
+# 3. Phase 0 - Foundation
+
+## Objective
+
+Set up the technical foundation required for Mentora.
+
+## Tasks
+
+### Project Setup
+
+- Create frontend project.
+- Create backend project.
+- Configure version control.
+- Configure development environments.
+- Define project folder structure.
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- Basic routing
+- Basic UI structure
+
+### Backend
+
+- Java
+- Spring Boot
+- REST API structure
+- Spring Security setup
+- JPA/Hibernate setup
+
+### Database
+
+- MySQL setup
+- Database connection
+- Initial schema
+- Migration strategy
+
+### Basic Infrastructure
+
+- Environment configuration
+- Logging
+- Error handling
+- API response structure
+
+## Expected Result
+
+A working frontend connected to a working Spring Boot backend and MySQL database.
+
+---
+
+# 4. Phase 1 - Core Coding Mentor
+
+## Objective
+
+Create the first usable Mentora learning experience.
+
+## Features
+
+### Authentication
+
+- Registration
+- Login
+- Logout
+- Student profile
+
+### AI Coding Mentor
+
+- Chat interface
+- Coding concept explanations
+- Code explanations
+- Algorithm explanations
+- Basic hints
+- Conversation history
+
+### Learning Content
+
+- Programming topics
+- Basic lessons
+- Examples
+- Coding exercises
+
+## Initial Language
+
+The first implementation should focus on:
+
+> Java
+
+Java is selected as the initial language to keep the first implementation manageable.
+
+The architecture should remain extensible for other languages.
+
+## Expected Result
+
+A student can register, select Java, ask Mentora coding questions, learn concepts, and receive coding tasks.
+
+---
+
+# 5. Phase 2 - Code Engine
+
+## Objective
+
+Build the actual coding environment.
+
+This phase introduces the compiler and secure code execution system.
+
+## Features
+
+### Coding Playground
+
+- Code editor
+- Syntax highlighting
+- Line numbers
+- Language selection
+- Run
+- Submit
+- Output panel
+
+### Compiler
+
+- Java compilation
+- Compilation error handling
+- Compiler output
+
+### Code Execution
+
+- Execute Java programs
+- Capture output
+- Capture runtime errors
+- Execution timeout
+- Resource limits
+
+### Test Engine
+
+- Public test cases
+- Hidden test cases
+- Expected output
+- Actual output
+- Pass/fail status
+
+## Security
+
+Student code must execute inside an isolated environment.
+
+It must not directly access:
+
+- Application server
+- Database
+- Host filesystem
+- Application secrets
+- Internal services
+
+## Expected Result
+
+A student can write Java code, run it, submit it, and receive reliable execution results.
+
+---
+
+# 6. Phase 3 - AI Evaluation
+
+## Objective
+
+Make Mentora different from a normal coding platform.
+
+The system will analyze submitted code after execution.
+
+## Features
+
+### Submission Analysis
+
+Mentora analyzes:
+
+- Compiler errors
+- Runtime errors
+- Wrong answers
+- Failed test cases
+- Potential performance problems
+
+### AI Feedback
+
+The AI explains:
+
+- Where the problem occurred
+- What went wrong
+- Why it went wrong
+- Which programming concept is involved
+
+### Example
+
+```text
+Submission Failed
+
+Error Type:
+Runtime Error
+
+Location:
+Line 8
+
+What happened:
+The program attempted to access an invalid
+array position.
+
+Why:
+The loop continues beyond the last valid index.
+
+Concept:
+Array indexing and loop boundaries.

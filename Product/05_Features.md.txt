@@ -1,0 +1,70 @@
+# Mentora Features
+
+Version: 1.0
+
+Status: Draft
+
+Author: Akhil
+
+Date: August 2026
+
+---
+
+# Table of Contents
+
+1. Feature Overview
+2. Authentication
+3. Student Profile
+4. AI Coding Mentor
+5. Learning Hub
+6. Interactive Visualization
+7. Coding Playground
+8. Mentora Code Engine
+9. AI Code Evaluation
+10. Coding Task Generator
+11. Progressive Hints
+12. Coding Missions
+13. Progress Tracking
+14. Skill Tracking
+15. Adaptive Learning
+16. Submission History
+17. Analytics Dashboard
+18. Multi-Language Support
+19. Notifications
+20. Future Features
+21. Feature Priority
+
+---
+
+# 1. Feature Overview
+
+Mentora is built around a simple learning philosophy:
+
+> The student thinks first. Mentora evaluates second.
+
+The platform combines AI mentorship, coding practice, code execution, automated evaluation, visualization, and personalized learning.
+
+The main feature flow is:
+
+```text
+Learn
+  ↓
+Understand
+  ↓
+Visualize
+  ↓
+Practice
+  ↓
+Write Code
+  ↓
+Run
+  ↓
+Submit
+  ↓
+Evaluate
+  ↓
+Understand Mistake
+  ↓
+Improve
+  ↓
+Master

@@ -1,0 +1,134 @@
+# Software Requirements Specification (SRS)
+
+# Mentora
+
+Version: 1.0
+
+Status: Draft
+
+Author: Akhil
+
+Date: August 2026
+
+---
+
+# Table of Contents
+
+1. Introduction
+2. Purpose
+3. Scope
+4. System Overview
+5. System Actors
+6. Functional Requirements
+7. AI Mentor Requirements
+8. Coding Environment Requirements
+9. Code Execution and Compiler Requirements
+10. AI Evaluation Requirements
+11. Visualization Requirements
+12. Task Management Requirements
+13. Learning and Progress Requirements
+14. Authentication Requirements
+15. Database Requirements
+16. API Requirements
+17. Non-Functional Requirements
+18. Security Requirements
+19. Error Handling Requirements
+20. System Constraints
+21. Future Requirements
+22. Appendix
+
+---
+
+# 1. Introduction
+
+Mentora is an AI-powered coding learning platform designed to help students learn programming through guided learning, coding practice, code execution, intelligent post-submission evaluation, visualization, and adaptive learning.
+
+The system combines an AI Coding Mentor with a secure coding environment and learning management components.
+
+Mentora is designed to help students develop programming skills rather than simply generate solutions for them.
+
+---
+
+# 2. Purpose
+
+The purpose of this system is to provide students with an interactive environment where they can:
+
+- Learn programming concepts.
+- Understand algorithms and data structures.
+- Visualize code and algorithms.
+- Practice coding problems.
+- Write and execute code.
+- Submit coding solutions.
+- Receive compiler and execution results.
+- Receive AI-powered explanations after submission.
+- Track their learning progress.
+- Improve through repeated practice.
+
+The system should encourage independent problem solving.
+
+---
+
+# 3. Scope
+
+## 3.1 In Scope
+
+The initial system includes:
+
+- User authentication
+- Student profile
+- AI Coding Mentor
+- Programming lessons
+- Coding tasks
+- Code editor
+- Compiler
+- Code execution
+- Test-case execution
+- Code submission
+- Submission history
+- AI post-submission evaluation
+- Error explanation
+- Basic visualization
+- Progress tracking
+- Skill tracking
+- Learning recommendations
+
+---
+
+## 3.2 Out of Scope for Initial Version
+
+The following are planned for future versions:
+
+- Mobile application
+- AI-generated full-length videos
+- Large-scale competitive programming contests
+- Institution management
+- Faculty dashboard
+- Advanced interview simulation
+- Enterprise deployment
+- Voice-based coding mentor
+- Offline coding environment
+
+---
+
+# 4. System Overview
+
+Mentora consists of the following major subsystems:
+
+```text
+                    MENTORA
+                       |
+       ┌───────────────┼────────────────┐
+       ↓               ↓                ↓
+   AI MENTOR       CODE ENGINE      LEARNING ENGINE
+       │               │                │
+       ↓               ↓                ↓
+ Explanation       Compiler          Progress
+ Guidance          Execution         Skills
+ Lessons           Test Cases        Recommendations
+ Hints             Evaluation        Learning Path
+       │               │                │
+       └───────────────┼────────────────┘
+                       ↓
+                AI EVALUATION
+                       ↓
+             Post-submission feedback

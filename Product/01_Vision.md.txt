@@ -1,0 +1,107 @@
+# Mentora Vision
+
+## Product Name
+
+Mentora
+
+## Vision Statement
+
+Mentora aims to become an intelligent AI-powered coding learning platform that helps students learn programming, understand complex concepts, practice coding, visualize algorithms, solve problems, and continuously improve their programming skills.
+
+Mentora is designed to act as a personal AI coding mentor that guides students through their learning journey instead of simply providing answers.
+
+## Why Mentora Exists
+
+Learning to code is difficult for many students because programming concepts are often abstract and difficult to visualize.
+
+Students frequently face problems such as:
+
+- Not understanding how code executes step by step
+- Struggling with algorithms and data structures
+- Depending on AI tools to generate solutions instead of learning
+- Not knowing how to practice after learning a concept
+- Finding it difficult to identify and correct mistakes
+- Following the same learning path regardless of their actual skill level
+
+Existing AI assistants can explain concepts and generate code, but Mentora focuses specifically on the learning process.
+
+Mentora exists to transform coding from an answer-seeking activity into an interactive learning experience.
+
+## What Makes Mentora Different
+
+Mentora is not designed to be another general-purpose AI chatbot.
+
+Its primary purpose is to help students **learn how to code**.
+
+Instead of simply answering:
+
+> "What is binary search?"
+
+Mentora can:
+
+1. Explain the concept
+2. Show how the algorithm works
+3. Visualize each step
+4. Provide an example
+5. Give the student a coding task
+6. Evaluate the student's solution
+7. Identify mistakes
+8. Provide hints instead of immediately giving the answer
+9. Recommend additional practice
+10. Track the student's understanding
+
+The goal is not just to produce correct code.
+
+The goal is to help the student become capable of writing the code independently.
+
+## Long-Term Vision
+
+Mentora aims to become a complete AI-powered coding learning environment.
+
+A student should be able to start as a beginner and gradually progress toward advanced programming, data structures and algorithms, competitive programming, software development, and technical interview preparation.
+
+The platform will combine:
+
+- AI-powered tutoring
+- Interactive coding
+- Code execution
+- Code evaluation
+- Algorithm visualization
+- AI-generated learning content
+- Personalized coding tasks
+- Progress tracking
+- Adaptive learning paths
+- Coding challenges
+- Multiple programming languages
+
+## Who We Serve
+
+Mentora primarily serves:
+
+- Students learning programming
+- Beginners starting their first programming language
+- Students preparing for coding interviews
+- Students learning Data Structures and Algorithms
+- Students practicing competitive programming
+- Students improving their programming skills
+
+## Core Philosophy
+
+Coding education should be:
+
+- **Interactive** — Students should learn by doing.
+- **Visual** — Complex concepts should be easier to understand through visualization.
+- **Personalized** — Learning should adapt to the student's skill level.
+- **Practice-oriented** — Every concept should lead to meaningful practice.
+- **Guided** — Students should receive hints and guidance instead of being given immediate solutions.
+- **Adaptive** — The system should identify weaknesses and adjust future learning.
+- **Language-flexible** — Students should eventually be able to learn multiple programming languages.
+- **Student-centered** — The objective is to build the student's ability, not simply complete the task for them.
+
+## Future Goal
+
+To become a trusted AI coding mentor that guides students from their first programming concepts to advanced problem-solving and software development skills.
+
+Mentora's ultimate goal is simple:
+
+> **Don't just give students the code. Teach them how to think, understand, and write it themselves.**
