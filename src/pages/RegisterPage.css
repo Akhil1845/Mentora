@@ -48,6 +48,18 @@
   50%      { color: var(--violet); }
   75%      { color: var(--sky); }
 }
+@keyframes lgnCheckColorCycle {
+  0%, 100% { background: var(--insight); border-color: var(--insight); }
+  25%      { background: var(--mint);    border-color: var(--mint); }
+  50%      { background: var(--violet);  border-color: var(--violet); }
+  75%      { background: var(--sky);     border-color: var(--sky); }
+}
+@keyframes lgnBgColorCycle {
+  0%, 100% { background: var(--insight); }
+  25%      { background: var(--mint); }
+  50%      { background: var(--violet); }
+  75%      { background: var(--sky); }
+}
 
 /* ---------------- BRAND SIDE ---------------- */
 
@@ -437,6 +449,8 @@
 .lgn-check input:checked + .lgn-check-box {
   background: var(--insight);
   border-color: var(--insight);
+  animation: lgnCheckColorCycle 9s ease-in-out infinite;
+  animation-delay: 1s;
 }
 
 .lgn-check input:checked + .lgn-check-box::after {
@@ -522,6 +536,9 @@
   font-weight: 700;
 
   cursor: pointer;
+
+  animation: lgnBgColorCycle 9s ease-in-out infinite;
+  animation-delay: 2s;
 
   transition:
     transform 0.18s ease,
