@@ -32,7 +32,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [remember, setRemember] = useState(true);
   const [agree, setAgree] = useState(false);
 
   const [status, setStatus] = useState<Status>("idle");
@@ -75,14 +74,37 @@ export default function RegisterPage() {
     setStatus("loading");
 
     try {
-      // Demo registration for now.
-      // Real authentication will be connected later through the backend.
-      await new Promise((resolve) => setTimeout(resolve, 1300));
+      const response = await fetch("http://localhost:8080/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          typeof data === "string"
+            ? data
+            : "Unable to create your account."
+        );
+      }
 
       setStatus("success");
-    } catch {
+    } catch (error) {
       setStatus("idle");
-      setError("Something went wrong. Please try again.");
+
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -301,26 +323,6 @@ export default function RegisterPage() {
                   </button>
                 </span>
               </label>
-
-              {/* OPTIONS */}
-              <div className="lgn-row lgn-register-row">
-                <label className="lgn-check">
-                  <input
-                    type="checkbox"
-                    checked={remember}
-                    onChange={(e) =>
-                      setRemember(e.target.checked)
-                    }
-                  />
-
-                  <span
-                    className="lgn-check-box"
-                    aria-hidden="true"
-                  />
-
-                  Remember me
-                </label>
-              </div>
 
               {/* TERMS */}
               <label className="lgn-check lgn-terms">

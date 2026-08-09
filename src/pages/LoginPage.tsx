@@ -31,17 +31,35 @@ type Status = "idle" | "loading" | "success";
 
 interface LoginPageProps {
   /** Hook up real auth here. Falls back to a demo simulation if omitted. */
-  onLogin?: (email: string, password: string) => Promise<void> | void;
+  onLogin?: (
+    email: string,
+    password: string,
+    remember: boolean
+  ) => Promise<void> | void;
   onNavigateHome?: () => void;
   onNavigateSignup?: () => void;
 }
 
 export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }: LoginPageProps) {
   const navigate = useNavigate();
+  const handleNavigateHome = () => {
+    if (onNavigateHome) {
+      onNavigateHome();
+      return;
+    }
+    navigate("/");
+  };
+  const handleNavigateSignup = () => {
+    if (onNavigateSignup) {
+      onNavigateSignup();
+      return;
+    }
+    navigate("/register");
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [mounted, setMounted] = useState(false);
@@ -62,7 +80,7 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
     setStatus("loading");
     try {
       if (onLogin) {
-        await onLogin(email, password);
+        await onLogin(email, password, remember);
       } else {
         await new Promise((resolve) => setTimeout(resolve, 1300));
       }
@@ -81,7 +99,7 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
           <div className="lgn-glow" aria-hidden="true" />
 
           <div className="lgn-brand-top">
-            <button className="lgn-logo" onClick={() => navigate("/")} type="button">
+            <button className="lgn-logo" onClick={handleNavigateHome} type="button">
               Mentora<span className="lgn-dot">.</span>
             </button>
           </div>
@@ -130,7 +148,7 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
 
         {/* FORM PANEL */}
         <main className="lgn-formside">
-          <button className="lgn-back" onClick={() => navigate("/")} type="button">
+          <button className="lgn-back" onClick={handleNavigateHome} type="button">
             <ArrowLeft size={15} /> Back to home
           </button>
 
@@ -194,7 +212,7 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
                       onChange={(e) => setRemember(e.target.checked)}
                     />
                     <span className="lgn-check-box" aria-hidden="true" />
-                    Remember me
+                    Remember me for a month
                   </label>
                   <a href="#forgot" className="lgn-link">Forgot password?</a>
                 </div>
@@ -248,7 +266,7 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
 
           <p className="lgn-signup-cta">
             New to Mentora?{" "}
-            <button type="button" className="lgn-link lgn-link-strong" onClick={() => navigate("/register")}>
+            <button type="button" className="lgn-link lgn-link-strong" onClick={handleNavigateSignup}>
               Create an account
             </button>
           </p>
