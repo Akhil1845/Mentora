@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./RegisterPage.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
@@ -24,6 +24,7 @@ type Status = "idle" | "loading" | "success";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,6 +42,19 @@ export default function RegisterPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const googleName = searchParams.get("name");
+    const googleEmail = searchParams.get("email");
+
+    if (googleName && !name.trim()) {
+      setName(googleName);
+    }
+
+    if (googleEmail && !email.trim()) {
+      setEmail(googleEmail);
+    }
+  }, [searchParams, name, email]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,6 +128,10 @@ export default function RegisterPage() {
 
   const goLogin = () => {
     navigate("/login");
+  };
+
+  const handleGoogleSignup = () => {
+    window.location.href = "http://localhost:8080/api/auth/google/signup";
   };
 
   return (
@@ -394,6 +412,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   className="lgn-oauth-btn"
+                  onClick={handleGoogleSignup}
                 >
                   <svg
                     width="16"

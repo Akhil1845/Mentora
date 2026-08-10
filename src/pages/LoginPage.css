@@ -55,6 +55,18 @@
   50%      { color: var(--violet); }
   75%      { color: var(--sky); }
 }
+@keyframes lgnCheckColorCycle {
+  0%, 100% { background: var(--insight); border-color: var(--insight); }
+  25%      { background: var(--mint);    border-color: var(--mint); }
+  50%      { background: var(--violet);  border-color: var(--violet); }
+  75%      { background: var(--sky);     border-color: var(--sky); }
+}
+@keyframes lgnBgColorCycle {
+  0%, 100% { background: var(--insight); }
+  25%      { background: var(--mint); }
+  50%      { background: var(--violet); }
+  75%      { background: var(--sky); }
+}
 
 /* ---------- brand panel ---------- */
 .lgn-brand {
@@ -172,7 +184,11 @@
   width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--rule);
   display: inline-flex; align-items: center; justify-content: center; transition: all .18s ease;
 }
-.lgn-check input:checked + .lgn-check-box { background: var(--insight); border-color: var(--insight); }
+.lgn-check input:checked + .lgn-check-box {
+  background: var(--insight); border-color: var(--insight);
+  animation: lgnCheckColorCycle 9s ease-in-out infinite;
+  animation-delay: 1s;
+}
 .lgn-check input:checked + .lgn-check-box::after {
   content: ""; width: 4px; height: 8px; border: solid var(--ink-900); border-width: 0 2px 2px 0;
   transform: rotate(45deg) translate(-1px, -1px);
@@ -192,6 +208,8 @@
   display: flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--insight); color: var(--ink-900); border: none; border-radius: 9px;
   font-size: 14.5px; font-weight: 700; padding: 13px 18px; margin-top: 4px;
+  animation: lgnBgColorCycle 9s ease-in-out infinite;
+  animation-delay: 2s;
   transition: transform .18s ease, box-shadow .2s ease, opacity .2s ease;
 }
 .lgn-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 22px -8px rgba(242,166,90,0.55); }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./LoginPage.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
@@ -40,8 +40,9 @@ interface LoginPageProps {
   onNavigateSignup?: () => void;
 }
 
-export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }: LoginPageProps) {
+export default function LoginPage({ onLogin: _onLogin, onNavigateHome, onNavigateSignup }: LoginPageProps) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const handleNavigateHome = () => {
     if (onNavigateHome) {
       onNavigateHome();
@@ -68,6 +69,51 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const googleState = searchParams.get("google");
+    const googleEmail = searchParams.get("email");
+    const googleName = searchParams.get("name") ?? "";
+    const googleId = searchParams.get("id");
+    const googleCreatedAt = searchParams.get("createdAt") ?? null;
+
+    if (googleEmail) {
+      setEmail(googleEmail);
+    }
+
+    if (googleState === "success") {
+      localStorage.setItem(
+        "mentoraUser",
+        JSON.stringify({
+          id: googleId ? Number(googleId) : 0,
+          name: googleName || googleEmail || "",
+          email: googleEmail || "",
+          createdAt: googleCreatedAt,
+        })
+      );
+      setError("");
+      setStatus("success");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 800);
+      return;
+    }
+
+    if (googleState === "account-exists") {
+      setStatus("idle");
+      setError("An account already exists for this Google email. Sign in to continue.");
+      return;
+    }
+
+    if (googleState === "failed") {
+      setStatus("idle");
+      setError("Google sign-in failed. Please try again.");
+    }
+  }, [searchParams]);
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/api/auth/google/login";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -78,16 +124,59 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
     }
 
     setStatus("loading");
+
     try {
-      if (onLogin) {
-        await onLogin(email, password, remember);
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 1300));
+      const response = await fetch(
+        "http://localhost:8080/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: email.trim(),
+            password: password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          typeof data === "string"
+            ? data
+            : "Invalid email or password."
+        );
       }
+
+      // Save logged-in user information
+      localStorage.setItem(
+        "mentoraUser",
+        JSON.stringify({
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          createdAt: data.createdAt ?? null,
+        })
+      );
+
       setStatus("success");
-    } catch {
+
+      // Redirect to dashboard
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 800);
+
+    } catch (error) {
       setStatus("idle");
-      setError("That didn't work. Check your details and try again.");
+
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -236,7 +325,7 @@ export default function LoginPage({ onLogin, onNavigateHome, onNavigateSignup }:
                 </div>
 
                 <div className="lgn-oauth-row">
-                  <button type="button" className="lgn-oauth-btn">
+                  <button type="button" className="lgn-oauth-btn" onClick={handleGoogleLogin}>
                     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
                       <path
                         fill="currentColor"
