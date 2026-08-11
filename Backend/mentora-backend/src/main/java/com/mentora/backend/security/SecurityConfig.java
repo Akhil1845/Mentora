@@ -2,6 +2,7 @@ package com.mentora.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,7 +39,8 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
-                // Disable CSRF for our REST APIs
+
+                // Disable CSRF for REST APIs
                 .csrf(csrf -> csrf.disable())
 
                 // Enable CORS
@@ -57,32 +59,77 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // Authentication APIs
-                        .requestMatchers("/api/auth/**").permitAll()
+                        // ----------------------------------
+                        // Authentication
+                        // ----------------------------------
 
-                        // Practice / Problem APIs
-                        .requestMatchers("/api/problems/**").permitAll()
+                        .requestMatchers("/api/auth/**")
+                        .permitAll()
 
-                        // OAuth2 login endpoints
-                        .requestMatchers("/oauth2/**").permitAll()
-                        .requestMatchers("/login/**").permitAll()
+                        // ----------------------------------
+                        // Practice / Problems
+                        // ----------------------------------
 
-                        // Allow CORS preflight requests
+                        .requestMatchers("/api/problems/**")
+                        .permitAll()
+
+                        // ----------------------------------
+                        // Daily Problems
+                        // ----------------------------------
+
+                        .requestMatchers("/api/daily-problems/**")
+                        .permitAll()
+
+                        // ----------------------------------
+                        // Simulations
+                        // ----------------------------------
+
+                        .requestMatchers("/api/simulations/**")
+                        .permitAll()
+
+                        // ----------------------------------
+                        // Code Submissions / Execution
+                        // ----------------------------------
+
+                        .requestMatchers("/api/submissions/**")
+                        .permitAll()
+
+                        // ----------------------------------
+                        // OAuth2
+                        // ----------------------------------
+
+                        .requestMatchers("/oauth2/**")
+                        .permitAll()
+
+                        .requestMatchers("/login/**")
+                        .permitAll()
+
+                        // ----------------------------------
+                        // CORS Preflight
+                        // ----------------------------------
+
                         .requestMatchers(
-                                org.springframework.http.HttpMethod.OPTIONS,
+                                HttpMethod.OPTIONS,
                                 "/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
 
-                        // Everything else requires authentication
-                        .anyRequest().authenticated()
+                        // ----------------------------------
+                        // Everything else
+                        // ----------------------------------
+
+                        .anyRequest()
+                        .authenticated()
                 )
 
                 // ==========================================
                 // GOOGLE OAUTH2 LOGIN
                 // ==========================================
 
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(googleOAuth2SuccessHandler)
+                .oauth2Login(oauth2 ->
+                        oauth2.successHandler(
+                                googleOAuth2SuccessHandler
+                        )
                 );
 
         return http.build();

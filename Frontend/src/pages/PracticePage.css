@@ -1,405 +1,1255 @@
-/* PAGE HEADING */
+/* =========================================================
+   PRACTICE PAGE
+========================================================= */
+
+.practice-page {
+  min-height: 100vh;
+  background: #09090b;
+  color: #f4f4f5;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
 
 .practice-heading {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .practice-heading h1 {
-  font-size: clamp(26px, 3vw, 36px);
-  letter-spacing: -1.4px;
   margin: 0;
-  font-weight: 650;
+
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.15;
+
+  letter-spacing: -1.5px;
+  font-weight: 700;
+
+  color: #f5f5f7;
 }
 
 .practice-heading h1 span {
   color: #ff7048;
 }
 
-.practice-stats {
-  margin-bottom: 26px;
+.practice-heading p {
+  margin: 10px 0 0;
+
+  max-width: 720px;
+
+  color: #85858d;
+
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-/* TOOLBAR */
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.practice-stats {
+  margin-bottom: 28px;
+}
+
+
+/* =========================================================
+   DAILY + RANDOM FEATURE AREA
+========================================================= */
+
+.practice-feature-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.75fr)
+    minmax(280px, 0.9fr);
+
+  gap: 18px;
+
+  margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   DAILY CHALLENGE CARD
+========================================================= */
+
+.practice-daily-card {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+
+  min-height: 190px;
+
+  padding: 28px 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(255, 112, 72, 0.13),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #141416 0%,
+      #101012 55%,
+      #0d0d0f 100%
+    );
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* orange accent */
+
+.practice-daily-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background: #ff7048;
+}
+
+
+/* glow */
+
+.practice-daily-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  right: -80px;
+  bottom: -100px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 112, 72, 0.06);
+
+  pointer-events: none;
+}
+
+
+.practice-daily-card:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(255, 112, 72, 0.35);
+
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.35),
+    0 0 35px rgba(255, 112, 72, 0.05);
+}
+
+
+/* =========================================================
+   DAILY ICON
+========================================================= */
+
+.practice-feature-icon {
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+
+  margin-right: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  color: #ff7048;
+
+  background: rgba(255, 112, 72, 0.1);
+
+  border: 1px solid rgba(255, 112, 72, 0.18);
+
+  box-shadow:
+    inset 0 0 18px rgba(255, 112, 72, 0.04);
+}
+
+
+/* =========================================================
+   DAILY CONTENT
+========================================================= */
+
+.practice-daily-content {
+  flex: 1;
+
+  min-width: 0;
+
+  padding-right: 40px;
+}
+
+
+/* =========================================================
+   DAILY LABEL ROW
+========================================================= */
+
+.practice-daily-label-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-bottom: 13px;
+}
+
+
+/* =========================================================
+   DAILY CHALLENGE LABEL
+========================================================= */
+
+.practice-daily-label-row
+.dashboard-panel-label {
+  margin: 0;
+
+  color: #92929d;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* =========================================================
+   ADDED TODAY BADGE
+========================================================= */
+
+.practice-today-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  color: #ff8567;
+
+  background: rgba(255, 112, 72, 0.1);
+
+  border: 1px solid rgba(255, 112, 72, 0.22);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.7px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DAILY TITLE
+========================================================= */
+
+.practice-daily-content h2 {
+  margin: 0;
+
+  color: #f5f5f7;
+
+  font-size: 27px;
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+}
+
+
+/* =========================================================
+   DAILY META
+========================================================= */
+
+.practice-daily-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 12px;
+
+  color: #92929d;
+
+  font-size: 13px;
+}
+
+.practice-daily-meta span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.practice-daily-meta span:first-child {
+  color: #4ade80;
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   DAILY DATE
+========================================================= */
+
+.practice-daily-date {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 15px;
+
+  color: #77777e;
+
+  font-size: 12px;
+}
+
+.practice-daily-date svg {
+  flex-shrink: 0;
+
+  color: #4ade80;
+}
+
+
+/* =========================================================
+   DAILY ARROW
+========================================================= */
+
+.practice-daily-arrow {
+  position: absolute;
+
+  right: 25px;
+  top: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  color: #65656f;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  transform: translateY(-50%);
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.practice-daily-card:hover
+.practice-daily-arrow {
+  transform: translate(4px, -50%);
+
+  color: #ff7048;
+
+  background: rgba(255, 112, 72, 0.1);
+}
+
+
+/* =========================================================
+   RANDOM PROBLEM CARD
+========================================================= */
+
+.practice-random-card {
+  position: relative;
+
+  min-height: 190px;
+
+  padding: 28px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #131315,
+      #101012
+    );
+
+  overflow: hidden;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.practice-random-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -60px;
+  bottom: -80px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  pointer-events: none;
+}
+
+
+.practice-random-card:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+
+/* random icon */
+
+.practice-random-card > svg {
+  margin-bottom: 18px;
+
+  color: #b8b8c1;
+}
+
+
+/* random heading */
+
+.practice-random-card h3 {
+  margin: 0 0 8px;
+
+  color: #f2f2f4;
+
+  font-size: 18px;
+  font-weight: 650;
+
+  letter-spacing: -0.3px;
+}
+
+
+/* random paragraph */
+
+.practice-random-card p {
+  margin: 0 0 20px;
+
+  max-width: 300px;
+
+  color: #85858d;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* random button */
+
+.practice-random-card
+.dashboard-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #eeeeef;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.practice-random-card
+.dashboard-secondary-button:hover {
+  border-color: rgba(255, 112, 72, 0.3);
+
+  background: rgba(255, 112, 72, 0.1);
+
+  color: #ff8567;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
 
 .practice-toolbar {
   display: flex;
+
   gap: 12px;
+
   margin-bottom: 22px;
 }
 
+
 .practice-search {
   flex: 1;
+
   display: flex;
   align-items: center;
+
   gap: 10px;
-  border: 1px solid #222226;
-  background: #101012;
-  border-radius: 10px;
-  padding: 0 14px;
+
   height: 44px;
+
+  padding: 0 14px;
+
+  border: 1px solid #222226;
+
+  border-radius: 10px;
+
+  background: #101012;
+
   color: #85858d;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+
+.practice-search:focus-within {
+  border-color: rgba(255, 112, 72, 0.35);
+
+  box-shadow:
+    0 0 0 3px rgba(255, 112, 72, 0.05);
+}
+
 
 .practice-search input {
   flex: 1;
+
+  width: 100%;
   height: 100%;
+
   border: none;
-  background: transparent;
+
   outline: none;
+
+  background: transparent;
+
   color: #f4f4f5;
+
   font-size: 13px;
+
   font-family: inherit;
 }
+
 
 .practice-search input::placeholder {
   color: #64646b;
 }
 
+
 .practice-filter-toggle {
   display: none;
   align-items: center;
+
   gap: 8px;
-  border: 1px solid #222226;
-  background: #101012;
-  color: #dddde1;
-  border-radius: 10px;
-  padding: 0 16px;
+
   height: 44px;
+
+  padding: 0 16px;
+
+  border: 1px solid #222226;
+
+  border-radius: 10px;
+
+  background: #101012;
+
+  color: #dddde1;
+
   font-size: 13px;
+
   cursor: pointer;
+
   white-space: nowrap;
 }
 
+
 .practice-filter-count {
-  background: #ff7048;
-  color: #111;
-  font-size: 10px;
-  font-weight: 700;
   min-width: 17px;
   height: 17px;
-  border-radius: 50%;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   padding: 0 4px;
+
+  border-radius: 50%;
+
+  background: #ff7048;
+
+  color: #111;
+
+  font-size: 10px;
+  font-weight: 700;
 }
 
-/* LAYOUT */
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
 
 .practice-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+
+  grid-template-columns: 240px minmax(0, 1fr);
+
   gap: 20px;
+
   align-items: start;
 }
 
-/* FILTER SIDEBAR */
+
+/* =========================================================
+   FILTER SIDEBAR
+========================================================= */
 
 .practice-filters {
-  border: 1px solid #222226;
-  background: #101012;
-  border-radius: 13px;
-  padding: 20px;
   position: sticky;
+
   top: 20px;
+
+  padding: 20px;
+
+  border: 1px solid #222226;
+
+  border-radius: 13px;
+
+  background: #101012;
 }
+
 
 .practice-filters-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   margin-bottom: 12px;
 }
 
-.practice-filters-header .dashboard-panel-label {
+
+.practice-filters-header
+.dashboard-panel-label {
   margin: 0;
 }
 
+
 .practice-clear {
-  border: none;
-  background: transparent;
-  color: #ff7048;
-  font-size: 11px;
-  cursor: pointer;
   padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #ff7048;
+
+  font-size: 11px;
+
+  cursor: pointer;
 }
+
+
+/* =========================================================
+   DIFFICULTY
+========================================================= */
 
 .practice-difficulty-row {
   display: flex;
   flex-wrap: wrap;
+
   gap: 8px;
+
   margin-bottom: 22px;
 }
 
+
 .practice-diff-chip {
+  padding: 7px 12px;
+
   border: 1px solid #222226;
+
+  border-radius: 20px;
+
   background: #17171a;
+
   color: #a3a3aa;
+
   font-size: 12px;
   font-weight: 600;
-  padding: 7px 12px;
-  border-radius: 20px;
+
   cursor: pointer;
-  transition: 0.15s ease;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
+
 
 .practice-diff-chip:hover {
   border-color: #38383d;
 }
 
+
 .practice-diff-chip.active.practice-diff-easy {
   background: #10241a;
+
   border-color: #1e5b3a;
+
   color: #4ade80;
 }
 
+
 .practice-diff-chip.active.practice-diff-medium {
   background: #26200f;
+
   border-color: #6b551c;
+
   color: #fbbf24;
 }
 
+
 .practice-diff-chip.active.practice-diff-hard {
   background: #2a1414;
+
   border-color: #6b2323;
+
   color: #f87171;
 }
+
+
+/* =========================================================
+   TOPICS
+========================================================= */
 
 .practice-topics-label {
   display: block;
 }
 
+
 .practice-topic-list {
   display: flex;
   flex-direction: column;
+
   gap: 3px;
 }
+
 
 .practice-topic-item {
   display: flex;
   align-items: center;
+
   gap: 10px;
-  border: none;
-  background: transparent;
-  color: #a3a3aa;
+
   padding: 9px 8px;
+
+  border: none;
+
   border-radius: 8px;
-  cursor: pointer;
+
+  background: transparent;
+
+  color: #a3a3aa;
+
   font-size: 13px;
+
   text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
+
 
 .practice-topic-item:hover {
   background: #17171a;
+
   color: #eeeef0;
 }
 
+
 .practice-topic-item.active {
   background: #1b1715;
+
   color: #ff7048;
 }
 
+
 .practice-topic-name {
   flex: 1;
+
   min-width: 0;
 }
 
+
 .practice-topic-count {
-  font-size: 11px;
-  color: #6c6c73;
   flex-shrink: 0;
+
+  color: #6c6c73;
+
+  font-size: 11px;
 }
 
-.practice-topic-item.active .practice-topic-count {
+
+.practice-topic-item.active
+.practice-topic-count {
   color: #ff8f68;
 }
 
-/* RESULTS */
+
+/* =========================================================
+   RESULTS
+========================================================= */
 
 .practice-results-count {
-  color: #77777e;
-  font-size: 12px;
   margin-bottom: 14px;
+
+  color: #77777e;
+
+  font-size: 12px;
 }
+
+
+/* =========================================================
+   PROBLEM GRID
+========================================================= */
 
 .practice-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
   gap: 14px;
 }
 
+
+/* =========================================================
+   PROBLEM CARD
+========================================================= */
+
 .practice-card {
-  border: 1px solid #222226;
-  background: #101012;
-  border-radius: 13px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  transition: 0.2s ease;
+
+  padding: 20px;
+
+  border: 1px solid #222226;
+
+  border-radius: 13px;
+
+  background: #101012;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+
 .practice-card:hover {
-  border-color: #39393e;
   transform: translateY(-2px);
+
+  border-color: #39393e;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.25);
 }
+
 
 .practice-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   margin-bottom: 14px;
 }
 
+
+/* =========================================================
+   DIFFICULTY BADGES
+========================================================= */
+
 .practice-badge {
+  padding: 4px 10px;
+
+  border-radius: 20px;
+
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
+
   letter-spacing: 0.2px;
 }
 
+
 .practice-badge-easy {
   background: #10241a;
+
   color: #4ade80;
 }
 
+
 .practice-badge-medium {
   background: #26200f;
+
   color: #fbbf24;
 }
 
+
 .practice-badge-hard {
   background: #2a1414;
+
   color: #f87171;
 }
+
+
+/* =========================================================
+   STATUS
+========================================================= */
 
 .practice-status {
   display: flex;
   align-items: center;
+
   gap: 5px;
-  font-size: 11px;
+
   color: #77777e;
+
+  font-size: 11px;
 }
+
 
 .practice-status-solved {
   color: #4ade80;
 }
 
+
 .practice-status-attempted {
   color: #fbbf24;
 }
 
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
 .practice-card-title {
   margin: 0 0 8px;
+
+  color: #eeeeef;
+
   font-size: 15px;
+
   letter-spacing: -0.3px;
 }
 
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
 .practice-card-desc {
-  margin: 0;
-  color: #77777e;
-  font-size: 12px;
-  line-height: 1.6;
   flex: 1;
+
+  margin: 0;
+
+  color: #77777e;
+
+  font-size: 12px;
+
+  line-height: 1.6;
 }
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
 
 .practice-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  gap: 12px;
+
   margin-top: 18px;
 }
 
+
+/* =========================================================
+   TOPIC
+========================================================= */
+
 .practice-card-topic {
-  font-size: 11px;
-  color: #6c6c73;
-  border: 1px solid #222226;
   padding: 4px 9px;
+
+  border: 1px solid #222226;
+
   border-radius: 6px;
+
+  color: #6c6c73;
+
+  font-size: 11px;
 }
+
+
+/* =========================================================
+   START BUTTON
+========================================================= */
 
 .practice-start-button {
   display: inline-flex;
   align-items: center;
+
   gap: 6px;
+
+  padding: 8px 12px;
+
   border: 1px solid #f2f2f2;
+
+  border-radius: 8px;
+
   background: #f2f2f2;
+
   color: #111;
+
   font-size: 12px;
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 8px;
+
   cursor: pointer;
-  transition: 0.2s ease;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
+
 
 .practice-start-button:hover {
-  background: #fff;
+  background: #ffffff;
+
+  transform: translateX(2px);
 }
 
-/* EMPTY STATE */
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
 
 .practice-empty {
-  border: 1px dashed #26262a;
-  border-radius: 13px;
-  padding: 50px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  color: #77777e;
+
   gap: 6px;
+
+  padding: 50px 20px;
+
+  border: 1px dashed #26262a;
+
+  border-radius: 13px;
+
+  color: #77777e;
+
+  text-align: center;
 }
 
+
 .practice-empty svg {
-  color: #4c4c52;
   margin-bottom: 8px;
+
+  color: #4c4c52;
 }
+
 
 .practice-empty h3 {
   margin: 0;
+
   color: #dddde1;
+
   font-size: 15px;
 }
 
+
 .practice-empty p {
   margin: 0 0 14px;
+
   font-size: 12px;
 }
 
-/* RESPONSIVE */
+
+/* =========================================================
+   MOBILE / TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .practice-feature-row {
+    grid-template-columns: 1fr;
+  }
+
+}
+
 
 @media (max-width: 950px) {
+
   .practice-layout {
     grid-template-columns: 1fr;
   }
+
 
   .practice-filter-toggle {
     display: inline-flex;
   }
 
+
   .practice-filters {
     display: none;
+
     position: static;
   }
+
 
   .practice-filters-open {
     display: block;
   }
+
 }
 
+
 @media (max-width: 750px) {
+
   .practice-grid {
     grid-template-columns: 1fr;
   }
+
+
+  .practice-feature-row {
+    gap: 14px;
+  }
+
+
+  .practice-daily-card {
+    padding: 24px;
+  }
+
+
+  .practice-random-card {
+    padding: 24px;
+  }
+
 }
 
+
+@media (max-width: 600px) {
+
+  .practice-daily-card {
+    min-height: 170px;
+
+    padding: 22px;
+  }
+
+
+  .practice-feature-icon {
+    width: 42px;
+    height: 42px;
+
+    margin-right: 14px;
+  }
+
+
+  .practice-daily-content {
+    padding-right: 25px;
+  }
+
+
+  .practice-daily-content h2 {
+    font-size: 23px;
+  }
+
+
+  .practice-daily-meta {
+    font-size: 12px;
+  }
+
+
+  .practice-daily-date {
+    font-size: 11px;
+  }
+
+
+  .practice-daily-arrow {
+    right: 16px;
+
+    width: 30px;
+    height: 30px;
+  }
+
+}
+
+
 @media (max-width: 500px) {
+
   .practice-toolbar {
     flex-direction: column;
   }
 
+
   .practice-filter-toggle {
     justify-content: center;
   }
+
+
+  .practice-card-footer {
+    align-items: flex-end;
+  }
+
+
+  .practice-heading h1 {
+    font-size: 28px;
+  }
+
 }
