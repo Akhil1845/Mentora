@@ -18,7 +18,10 @@ public class ProblemController {
         this.problemService = problemService;
     }
 
-    // Get all active problems
+    // ==========================================
+    // GET ALL ACTIVE PROBLEMS
+    // ==========================================
+
     @GetMapping
     public ResponseEntity<List<Problem>> getAllProblems() {
         return ResponseEntity.ok(
@@ -26,7 +29,10 @@ public class ProblemController {
         );
     }
 
-    // Get problem by ID
+    // ==========================================
+    // GET PROBLEM BY ID
+    // ==========================================
+
     @GetMapping("/{id}")
     public ResponseEntity<Problem> getProblemById(
             @PathVariable Long id
@@ -36,7 +42,10 @@ public class ProblemController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Get today's problems
+    // ==========================================
+    // GET TODAY'S PROBLEMS
+    // ==========================================
+
     @GetMapping("/daily")
     public ResponseEntity<List<Problem>> getDailyProblems() {
         return ResponseEntity.ok(
@@ -44,7 +53,10 @@ public class ProblemController {
         );
     }
 
-    // Get problems by topic
+    // ==========================================
+    // GET PROBLEMS BY TOPIC
+    // ==========================================
+
     @GetMapping("/topic/{topic}")
     public ResponseEntity<List<Problem>> getProblemsByTopic(
             @PathVariable String topic
@@ -54,7 +66,10 @@ public class ProblemController {
         );
     }
 
-    // Get problems by difficulty
+    // ==========================================
+    // GET PROBLEMS BY DIFFICULTY
+    // ==========================================
+
     @GetMapping("/difficulty/{difficulty}")
     public ResponseEntity<List<Problem>> getProblemsByDifficulty(
             @PathVariable String difficulty
@@ -64,7 +79,10 @@ public class ProblemController {
         );
     }
 
-    // Get problems by topic and difficulty
+    // ==========================================
+    // GET PROBLEMS BY TOPIC + DIFFICULTY
+    // ==========================================
+
     @GetMapping("/topic/{topic}/difficulty/{difficulty}")
     public ResponseEntity<List<Problem>> getProblemsByTopicAndDifficulty(
             @PathVariable String topic,
@@ -78,7 +96,10 @@ public class ProblemController {
         );
     }
 
-    // Create a new problem
+    // ==========================================
+    // CREATE NEW PROBLEM
+    // ==========================================
+
     @PostMapping
     public ResponseEntity<Problem> createProblem(
             @RequestBody Problem problem
@@ -88,7 +109,10 @@ public class ProblemController {
         );
     }
 
-    // Delete a problem
+    // ==========================================
+    // DELETE PROBLEM
+    // ==========================================
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProblem(
             @PathVariable Long id

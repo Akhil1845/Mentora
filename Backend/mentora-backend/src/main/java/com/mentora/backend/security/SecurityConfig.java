@@ -19,10 +19,18 @@ public class SecurityConfig {
         this.googleOAuth2SuccessHandler = googleOAuth2SuccessHandler;
     }
 
+    // ==========================================
+    // PASSWORD ENCODER
+    // ==========================================
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    // ==========================================
+    // SECURITY CONFIGURATION
+    // ==========================================
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -30,20 +38,48 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
+                // Disable CSRF for our REST APIs
                 .csrf(csrf -> csrf.disable())
 
+                // Enable CORS
                 .cors(cors -> {})
 
+                // Keep sessions because Google OAuth uses sessions
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.IF_REQUIRED
                         )
                 )
 
+                // ==========================================
+                // AUTHORIZATION
+                // ==========================================
+
                 .authorizeHttpRequests(auth -> auth
+
+                        // Authentication APIs
                         .requestMatchers("/api/auth/**").permitAll()
+
+                        // Practice / Problem APIs
+                        .requestMatchers("/api/problems/**").permitAll()
+
+                        // OAuth2 login endpoints
+                        .requestMatchers("/oauth2/**").permitAll()
+                        .requestMatchers("/login/**").permitAll()
+
+                        // Allow CORS preflight requests
+                        .requestMatchers(
+                                org.springframework.http.HttpMethod.OPTIONS,
+                                "/**"
+                        ).permitAll()
+
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
+
+                // ==========================================
+                // GOOGLE OAUTH2 LOGIN
+                // ==========================================
 
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(googleOAuth2SuccessHandler)
