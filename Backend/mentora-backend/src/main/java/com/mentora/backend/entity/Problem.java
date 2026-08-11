@@ -1,6 +1,7 @@
 package com.mentora.backend.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "problems")
@@ -27,6 +28,13 @@ public class Problem {
 
     private Integer estimatedTime;
 
+    // Date on which this problem becomes available
+    private LocalDate releaseDate;
+
+    // Allows us to temporarily disable a problem
+    @Column(nullable = false)
+    private Boolean active = true;
+
     public Problem() {
     }
 
@@ -36,7 +44,8 @@ public class Problem {
             String difficulty,
             String topic,
             String tags,
-            Integer estimatedTime
+            Integer estimatedTime,
+            LocalDate releaseDate
     ) {
         this.title = title;
         this.description = description;
@@ -44,6 +53,8 @@ public class Problem {
         this.topic = topic;
         this.tags = tags;
         this.estimatedTime = estimatedTime;
+        this.releaseDate = releaseDate;
+        this.active = true;
     }
 
     public Long getId() {
@@ -74,6 +85,14 @@ public class Problem {
         return estimatedTime;
     }
 
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -100,5 +119,13 @@ public class Problem {
 
     public void setEstimatedTime(Integer estimatedTime) {
         this.estimatedTime = estimatedTime;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
