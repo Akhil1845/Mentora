@@ -9,7 +9,6 @@ import {
   LogOut,
   Flame,
   Trophy,
-  Target,
   ChevronRight,
   BookOpen,
   Menu,
@@ -24,9 +23,28 @@ interface MentoraUser {
   createdAt?: string | null;
 }
 
+interface PracticeProblem {
+  id: number;
+  title: string;
+  description: string;
+  difficulty: string;
+  topic: string;
+  tags: string;
+  estimatedTime: number;
+  releaseDate: string;
+  active: boolean;
+}
+
 export default function DashboardPage() {
   const [user, setUser] = useState<MentoraUser | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [dailyProblems, setDailyProblems] = useState<PracticeProblem[]>([]);
+  const [problemsLoading, setProblemsLoading] = useState(true);
+
+  // =========================
+  // LOAD LOGGED-IN USER
+  // =========================
 
   useEffect(() => {
     const storedUser = localStorage.getItem("mentoraUser");
@@ -43,14 +61,61 @@ export default function DashboardPage() {
     }
   }, []);
 
+  // =========================
+  // LOAD TODAY'S PRACTICE
+  // =========================
+
+  useEffect(() => {
+    const fetchDailyProblems = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/problems/daily"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch daily problems");
+        }
+
+        const data: PracticeProblem[] = await response.json();
+
+        // Temporary:
+        // Our initializer currently has 10 problems for today.
+        // Dashboard should show only the first 4.
+        setDailyProblems(data.slice(0, 4));
+      } catch (error) {
+        console.error("Error fetching daily problems:", error);
+      } finally {
+        setProblemsLoading(false);
+      }
+    };
+
+    fetchDailyProblems();
+  }, []);
+
+  // =========================
+  // LOGOUT
+  // =========================
+
   const handleLogout = () => {
     localStorage.removeItem("mentoraUser");
     window.location.href = "/login";
   };
 
+  // =========================
+  // NAVIGATION
+  // =========================
+
   const goToPractice = () => {
     window.location.href = "/practice";
   };
+
+  const goToProblem = (problemId: number) => {
+    window.location.href = `/practice/${problemId}`;
+  };
+
+  // =========================
+  // USER DETAILS
+  // =========================
 
   const firstName = user?.name
     ? user.name.split(" ")[0]
@@ -63,6 +128,10 @@ export default function DashboardPage() {
         day: "numeric",
       })
     : "Account active";
+
+  // =========================
+  // UI
+  // =========================
 
   return (
     <div className="dashboard-page">
@@ -105,7 +174,10 @@ export default function DashboardPage() {
             <span>AI Mentor</span>
           </button>
 
-          <button className="dashboard-nav-item" onClick={goToPractice}>
+          <button
+            className="dashboard-nav-item"
+            onClick={goToPractice}
+          >
             <Code2 size={18} />
             <span>Practice</span>
           </button>
@@ -130,6 +202,7 @@ export default function DashboardPage() {
         <div className="dashboard-sidebar-bottom">
 
           <div className="dashboard-user-mini">
+
             <div className="dashboard-avatar">
               {firstName.charAt(0).toUpperCase()}
             </div>
@@ -138,6 +211,7 @@ export default function DashboardPage() {
               <strong>{firstName}</strong>
               <span>Student</span>
             </div>
+
           </div>
 
           <button
@@ -194,12 +268,13 @@ export default function DashboardPage() {
           <section className="dashboard-welcome">
 
             <div>
+
               <p className="dashboard-eyebrow">
                 YOUR LEARNING SPACE
               </p>
 
               <h1>
-                Good to see you,{" "}
+                Good to see you{" "}
                 <span>{firstName}.</span>
               </h1>
 
@@ -207,6 +282,7 @@ export default function DashboardPage() {
                 Keep building your problem-solving skills.
                 Your next breakthrough might be one problem away.
               </p>
+
             </div>
 
             <div className="dashboard-welcome-mark">
@@ -268,11 +344,13 @@ export default function DashboardPage() {
               <div className="dashboard-panel-heading">
 
                 <div>
+
                   <span className="dashboard-panel-label">
                     LEARNING STATUS
                   </span>
 
-                    <h2>No learning history yet</h2>
+                  <h2>No learning history yet</h2>
+
                 </div>
 
                 <BookOpen size={20} />
@@ -280,25 +358,30 @@ export default function DashboardPage() {
               </div>
 
               <p className="dashboard-panel-description">
-                  Start solving problems to track real progress, streaks,
-                  and topic history here.
+                Start solving problems to track real progress,
+                streaks, and topic history here.
               </p>
 
               <div className="dashboard-progress-row">
 
                 <div className="dashboard-progress-track">
+
                   <div
                     className="dashboard-progress-fill"
-                      style={{ width: "0%" }}
+                    style={{ width: "0%" }}
                   />
+
                 </div>
 
-                  <span>0%</span>
+                <span>0%</span>
 
               </div>
 
-              <button className="dashboard-primary-button" onClick={goToPractice}>
-                  Start practice
+              <button
+                className="dashboard-primary-button"
+                onClick={goToPractice}
+              >
+                Start practice
                 <ChevronRight size={17} />
               </button>
 
@@ -333,40 +416,130 @@ export default function DashboardPage() {
 
           </section>
 
-          {/* RECOMMENDED */}
+          {/* TODAY'S PRACTICE */}
           <section className="dashboard-recommended">
 
             <div className="dashboard-section-heading">
 
               <div>
+
                 <span className="dashboard-panel-label">
-                    PRACTICE HISTORY
+                  TODAY'S PRACTICE
                 </span>
 
-                  <h2>No practice data yet</h2>
+                <h2>
+                  Keep your problem-solving sharp.
+                </h2>
+
               </div>
+
+              <button
+                className="dashboard-secondary-button"
+                onClick={goToPractice}
+              >
+                View all
+                <ChevronRight size={17} />
+              </button>
 
             </div>
 
+            {/* LOADING */}
+            {problemsLoading && (
+
               <div className="dashboard-topic-grid">
 
-                <div className="dashboard-topic-card dashboard-topic-empty" onClick={goToPractice}>
+                <div className="dashboard-topic-card dashboard-topic-empty">
 
                   <div className="topic-icon">
                     <Code2 size={19} />
                   </div>
 
                   <div>
-                    <h3>Nothing solved yet</h3>
+
+                    <h3>
+                      Loading today's problems...
+                    </h3>
+
                     <p>
-                      Your completed problems and topic recommendations
-                      will appear here after you start practicing.
+                      Mentora is getting your daily practice ready.
                     </p>
+
                   </div>
 
                 </div>
 
               </div>
+
+            )}
+
+            {/* NO PROBLEMS */}
+            {!problemsLoading && dailyProblems.length === 0 && (
+
+              <div className="dashboard-topic-grid">
+
+                <div
+                  className="dashboard-topic-card dashboard-topic-empty"
+                  onClick={goToPractice}
+                >
+
+                  <div className="topic-icon">
+                    <Code2 size={19} />
+                  </div>
+
+                  <div>
+
+                    <h3>
+                      No problems available today
+                    </h3>
+
+                    <p>
+                      Check the Practice section for more problems.
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            )}
+
+            {/* DAILY PROBLEMS */}
+            {!problemsLoading && dailyProblems.length > 0 && (
+
+              <div className="dashboard-topic-grid">
+
+                {dailyProblems.map((problem) => (
+
+                  <div
+                    key={problem.id}
+                    className="dashboard-topic-card"
+                    onClick={() => goToProblem(problem.id)}
+                  >
+
+                    <div className="topic-icon">
+                      <Code2 size={19} />
+                    </div>
+
+                    <div>
+
+                      <h3>{problem.title}</h3>
+
+                      <p>
+                        {problem.difficulty} · {problem.topic}
+                      </p>
+
+                    </div>
+
+                    <ChevronRight size={18} />
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            )}
 
           </section>
 

@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import PracticePage from "./pages/PracticePage";
+import ProblemWorkspacePage from "./pages/ProblemWorkspacePage";
 
 function App() {
   return (
@@ -12,19 +13,40 @@ function App() {
       <Routes>
 
         {/* Landing Page */}
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={<LandingPage />}
+        />
 
         {/* Login Page */}
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
 
         {/* Register Page */}
-        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/register"
+          element={<RegisterPage />}
+        />
 
         {/* Dashboard Page */}
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route
+          path="/dashboard"
+          element={<DashboardPage />}
+        />
 
-        {/* Practice Page */}
-        <Route path="/practice" element={<PracticePage />} />
+        {/* Practice Library */}
+        <Route
+          path="/practice"
+          element={<PracticePage />}
+        />
+
+        {/* Individual Problem + Compiler */}
+        <Route
+          path="/practice/:id"
+          element={<ProblemWorkspacePage />}
+        />
 
       </Routes>
     </BrowserRouter>
