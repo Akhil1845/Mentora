@@ -2,6 +2,7 @@ package com.mentora.backend.controller;
 
 import com.mentora.backend.dto.CodeExecutionRequest;
 import com.mentora.backend.dto.CodeExecutionResponse;
+import com.mentora.backend.dto.CodeSimulationResponse;
 import com.mentora.backend.service.CodeExecutionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,9 @@ public class CodeExecutionController {
         this.codeExecutionService = codeExecutionService;
     }
 
-    // ==========================================
+    // =========================================================
     // RUN CODE
-    // ==========================================
+    // =========================================================
 
     @PostMapping("/run")
     public ResponseEntity<CodeExecutionResponse> runCode(
@@ -30,6 +31,21 @@ public class CodeExecutionController {
 
         CodeExecutionResponse response =
                 codeExecutionService.execute(request);
+
+        return ResponseEntity.ok(response);
+    }
+
+    // =========================================================
+    // CODE SIMULATION
+    // =========================================================
+
+    @PostMapping("/simulate")
+    public ResponseEntity<CodeSimulationResponse> simulateCode(
+            @RequestBody CodeExecutionRequest request
+    ) {
+
+        CodeSimulationResponse response =
+                codeExecutionService.simulate(request);
 
         return ResponseEntity.ok(response);
     }

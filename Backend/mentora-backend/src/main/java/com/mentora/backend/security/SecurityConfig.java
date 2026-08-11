@@ -40,13 +40,22 @@ public class SecurityConfig {
 
         http
 
+                // ------------------------------------------
                 // Disable CSRF for REST APIs
+                // ------------------------------------------
+
                 .csrf(csrf -> csrf.disable())
 
+                // ------------------------------------------
                 // Enable CORS
+                // ------------------------------------------
+
                 .cors(cors -> {})
 
-                // Keep sessions because Google OAuth uses sessions
+                // ------------------------------------------
+                // Session Management
+                // ------------------------------------------
+
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.IF_REQUIRED
@@ -88,7 +97,14 @@ public class SecurityConfig {
                         .permitAll()
 
                         // ----------------------------------
-                        // Code Submissions / Execution
+                        // Code Execution
+                        // ----------------------------------
+
+                        .requestMatchers("/api/code/**")
+                        .permitAll()
+
+                        // ----------------------------------
+                        // Code Submissions
                         // ----------------------------------
 
                         .requestMatchers("/api/submissions/**")

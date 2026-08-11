@@ -1,7 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Editor from "@monaco-editor/react";
-
+import { useEffect, useMemo, useRef, useState } from "react";
+import Editor, { type OnMount } from "@monaco-editor/react";
 import {
   ArrowLeft,
   BrainCircuit,
@@ -23,6 +21,8 @@ import {
   Zap,
   Target,
 } from "lucide-react";
+
+import { useNavigate, useParams } from "react-router-dom";
 
 import "./ProblemWorkspacePage.css";
 
@@ -94,7 +94,7 @@ const STARTER_CODE: Record<Language, string> = {
   java: `import java.util.*;
 
 class Solution {
-    public int[] solve(int[] nums, int target) {
+    public int[] twoSum(int[] nums, int target) {
 
         // Write your solution here
 
@@ -103,7 +103,7 @@ class Solution {
 }`,
 
   python: `class Solution:
-    def solve(self, nums, target):
+    def twoSum(self, nums, target):
 
         # Write your solution here
 
@@ -111,10 +111,11 @@ class Solution {
 
   c: `#include <stdio.h>
 
-void solve(int nums[], int n, int target) {
+int* twoSum(int nums[], int numsSize, int target) {
 
     // Write your solution here
 
+    return NULL;
 }`,
 
   cpp: `#include <bits/stdc++.h>
@@ -122,7 +123,7 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> solve(vector<int>& nums, int target) {
+    vector<int> twoSum(vector<int>& nums, int target) {
 
         // Write your solution here
 
@@ -387,6 +388,30 @@ export default function ProblemWorkspacePage() {
   const [simulationStep, setSimulationStep] =
     useState(0);
 
+  const [simulationMode, setSimulationMode] =
+    useState<"problem" | "code">("problem");
+
+  const [codeTrace, setCodeTrace] =
+    useState<any[]>([]);
+
+  const [codeSimulationRunning, setCodeSimulationRunning] =
+    useState(false);
+
+  const [codeSimulationStep, setCodeSimulationStep] =
+    useState(0);
+
+  const [codeSimulationPlaying, setCodeSimulationPlaying] =
+    useState(false);
+
+  const [codeSimulationError, setCodeSimulationError] =
+    useState("");
+
+  const editorRef =
+    useRef<Parameters<OnMount>[0] | null>(null);
+
+  const codeSimulationDecorationRef =
+    useRef<string[]>([]);
+
   const [testResults, setTestResults] =
     useState<TestResult[]>([]);
 
@@ -481,7 +506,7 @@ export default function ProblemWorkspacePage() {
   }, [problem]);
 
   // =========================================================
-  // SIMULATION
+  // PROBLEM SIMULATION
   // =========================================================
 
   const simulationSteps: SimulationStep[] =
@@ -490,70 +515,39 @@ export default function ProblemWorkspacePage() {
         return [];
       }
 
-      if (problem.title === "Two Sum") {
-        return [
-          {
-            title: "Step 1 — Read the input",
-            description:
-              "We start with the array and target value.",
-            code:
-              "nums = [2, 7, 11, 15]\ntarget = 9",
-          },
-          {
-            title: "Step 2 — Read first value",
-            description:
-              "The current value is 2. We need 7 to make the target 9.",
-            code:
-              "current = 2\nneed = target - current\nneed = 9 - 2\nneed = 7",
-          },
-          {
-            title: "Step 3 — Store the value",
-            description:
-              "Store 2 in the HashMap along with its index.",
-            code:
-              "HashMap = {\n    2 : 0\n}",
-          },
-          {
-            title: "Step 4 — Read second value",
-            description:
-              "The current value is 7. We need 2, and 2 already exists.",
-            code:
-              "current = 7\nneed = 9 - 7\nneed = 2\n\n2 exists ✓",
-          },
-          {
-            title: "Step 5 — Answer found",
-            description:
-              "The indexes are 0 and 1.",
-            code:
-              "answer = [0, 1]",
-          },
-        ];
-      }
-
       return [
         {
-          title: "Step 1 — Understand input",
+          title: "Understand the Problem",
           description:
-            "Identify the input values and what the problem asks us to return.",
+            "Understand what the problem gives you, what you need to find, and what the expected output means.",
           code:
-            "Read input\n→\nIdentify required operation",
+            examples[selectedExample]?.input ||
+            "Read the problem input.",
         },
         {
-          title: "Step 2 — Process data",
+          title: "Understand the Example",
           description:
-            "Apply the selected algorithm to the problem data.",
+            examples[selectedExample]?.explanation ||
+            "Study the example and understand why the expected output is correct.",
           code:
-            "Process input\n→\nApply algorithm",
+            `Input:\n${examples[selectedExample]?.input || ""}\n\nExpected Output:\n${examples[selectedExample]?.output || ""}`,
         },
         {
-          title: "Step 3 — Generate result",
+          title: "Think About the Approach",
           description:
-            "The algorithm produces the required answer.",
+            "Use the Learn Concept section to understand possible approaches before writing your solution.",
           code:
-            "return answer",
+            concept?.approaches[selectedApproach]?.name ||
+            "Choose an appropriate algorithm.",
         },
       ];
-    }, [problem]);
+    }, [
+      problem,
+      examples,
+      selectedExample,
+      concept,
+      selectedApproach,
+    ]);
 
   // =========================================================
   // LANGUAGE CHANGE
@@ -569,6 +563,10 @@ export default function ProblemWorkspacePage() {
     setRunComplete(false);
     setSubmitComplete(false);
     setTestResults([]);
+    setCodeTrace([]);
+    setCodeSimulationStep(0);
+    setCodeSimulationPlaying(false);
+    setCodeSimulationError("");
   };
 
   // =========================================================
@@ -582,10 +580,14 @@ export default function ProblemWorkspacePage() {
     setRunComplete(false);
     setSubmitComplete(false);
     setTestResults([]);
+    setCodeTrace([]);
+    setCodeSimulationStep(0);
+    setCodeSimulationPlaying(false);
+    setCodeSimulationError("");
   };
 
   // =========================================================
-  // RUN
+  // RUN CODE
   // =========================================================
 
   const handleRun = async () => {
@@ -596,43 +598,100 @@ export default function ProblemWorkspacePage() {
     setRunning(true);
     setRunComplete(false);
     setSubmitComplete(false);
-
     setActiveTab("output");
 
     setOutput(
-      "Compiling your code...\n\nRunning visible sample test cases..."
+      "Sending code to Mentora compiler...\n"
     );
 
     try {
-      /*
-       * TEMPORARY UI EXECUTION
-       *
-       * Real compiler endpoint will be connected later.
-       */
+      const response = await fetch(
+        "http://localhost:8080/api/code/run",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            problemId: problem.id,
+            language: language,
+            code: code,
+            input: "",
+          }),
+        }
+      );
 
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1000)
+      if (!response.ok) {
+        throw new Error(
+          `Server returned ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      console.log(
+        "Code execution response:",
+        data
+      );
+
+      if (data.success) {
+        setOutput(
+          [
+            "✓ Compilation successful.",
+            "",
+            `Language : ${LANGUAGE_LABELS[language]}`,
+            `Problem  : ${problem.title}`,
+            `Time     : ${data.executionTime} ms`,
+            "",
+            "Program Output:",
+            "----------------",
+            data.output || "(No output)",
+          ].join("\n")
+        );
+
+        setRunComplete(true);
+      } else {
+        setOutput(
+          [
+            "✕ Execution failed.",
+            "",
+            `Language : ${LANGUAGE_LABELS[language]}`,
+            `Problem  : ${problem.title}`,
+            `Time     : ${data.executionTime} ms`,
+            "",
+            "Error:",
+            "----------------",
+            data.error ||
+              "Unknown execution error.",
+            "",
+            data.output
+              ? `Program Output:\n${data.output}`
+              : "",
+          ].join("\n")
+        );
+
+        setRunComplete(false);
+      }
+    } catch (err) {
+      console.error(
+        "Code execution error:",
+        err
       );
 
       setOutput(
         [
-          "✓ Compilation successful.",
+          "✕ Unable to connect to the code execution server.",
           "",
-          `Language : ${LANGUAGE_LABELS[language]}`,
-          `Problem  : ${problem.title}`,
+          "Make sure the Mentora backend is running on:",
+          "http://localhost:8080",
           "",
-          "Visible test cases executed.",
-          "Compiler integration will be connected next.",
+          err instanceof Error
+            ? err.message
+            : "Unknown error.",
         ].join("\n")
       );
 
-      setRunComplete(true);
-    } catch (err) {
-      console.error(err);
-
-      setOutput(
-        "✕ Unable to execute the code."
-      );
+      setRunComplete(false);
     } finally {
       setRunning(false);
     }
@@ -649,7 +708,6 @@ export default function ProblemWorkspacePage() {
 
     setSubmitting(true);
     setSubmitComplete(false);
-
     setActiveTab("output");
 
     setOutput(
@@ -662,20 +720,6 @@ export default function ProblemWorkspacePage() {
     );
 
     try {
-      /*
-       * TEMPORARY UI SIMULATION
-       *
-       * Future endpoint:
-       *
-       * POST /api/submissions
-       *
-       * {
-       *   problemId,
-       *   language,
-       *   code
-       * }
-       */
-
       await new Promise((resolve) =>
         setTimeout(resolve, 1500)
       );
@@ -714,19 +758,290 @@ export default function ProblemWorkspacePage() {
   };
 
   // =========================================================
-  // SIMULATE
+  // PROBLEM SIMULATION
   // =========================================================
 
   const handleSimulation = () => {
+    setSimulationMode("problem");
     setActiveTab("simulate");
     setSimulationStep(0);
   };
+
+  // =========================================================
+  // CODE SIMULATION
+  // =========================================================
+
+  const handleCodeSimulation = async () => {
+    if (!problem) {
+      return;
+    }
+
+    setSimulationMode("code");
+    setActiveTab("simulate");
+    setCodeSimulationRunning(true);
+    setCodeSimulationPlaying(false);
+    setCodeSimulationStep(0);
+    setCodeTrace([]);
+    setCodeSimulationError("");
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/code/simulate",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            problemId: problem.id,
+            language: language,
+            code: code,
+            input: "",
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Simulation server returned ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      console.log(
+        "Code simulation response:",
+        data
+      );
+
+      if (!data.success) {
+        throw new Error(
+          data.error ||
+            "Mentora could not generate the code simulation."
+        );
+      }
+
+      const trace =
+        Array.isArray(data.trace)
+          ? data.trace
+          : [];
+
+      setCodeTrace(trace);
+      setCodeSimulationStep(0);
+
+      // Automatically play the generated execution trace like a video.
+      setCodeSimulationPlaying(trace.length > 1);
+    } catch (err) {
+      console.error(
+        "Code simulation error:",
+        err
+      );
+
+      setCodeTrace([]);
+      setCodeSimulationStep(0);
+      setCodeSimulationPlaying(false);
+
+      const simulationError =
+        err instanceof Error
+          ? err.message
+          : "Unable to generate code simulation.";
+
+      setCodeSimulationError(simulationError);
+      setOutput(simulationError);
+    } finally {
+      setCodeSimulationRunning(false);
+    }
+  };
+
+  // =========================================================
+  // MONACO EDITOR
+  // =========================================================
+
+  const handleEditorMount: OnMount = (editor) => {
+    editorRef.current = editor;
+  };
+
+  // =========================================================
+  // MONACO SIMULATION HIGHLIGHT STYLE
+  // =========================================================
+
+  useEffect(() => {
+    const styleId =
+      "mentora-code-simulation-style";
+
+    if (document.getElementById(styleId)) {
+      return;
+    }
+
+    const style =
+      document.createElement("style");
+
+    style.id = styleId;
+
+    style.textContent = `
+      .mentora-simulation-active-line {
+        background: rgba(139, 92, 246, 0.16);
+        border-left: 3px solid #8b5cf6;
+      }
+
+      .mentora-simulation-glyph {
+        background: #8b5cf6;
+        width: 6px !important;
+        margin-left: 4px;
+        border-radius: 2px;
+      }
+    `;
+
+    document.head.appendChild(style);
+
+    return () => {
+      document.getElementById(styleId)?.remove();
+    };
+  }, []);
+
+  // =========================================================
+  // CODE SIMULATION HIGHLIGHT
+  // =========================================================
+
+  useEffect(() => {
+    const editor = editorRef.current;
+
+    if (!editor) {
+      return;
+    }
+
+    const currentEvent =
+      codeTrace[codeSimulationStep];
+
+    codeSimulationDecorationRef.current =
+      editor.deltaDecorations(
+        codeSimulationDecorationRef.current,
+        currentEvent?.line
+          ? [
+              {
+                range: {
+                  startLineNumber: currentEvent.line,
+                  startColumn: 1,
+                  endLineNumber: currentEvent.line,
+                  endColumn: 1,
+                },
+                options: {
+                  isWholeLine: true,
+                  className:
+                    "mentora-simulation-active-line",
+                  glyphMarginClassName:
+                    "mentora-simulation-glyph",
+                  overviewRuler: {
+                    color: "#8b5cf6",
+                    position: 1,
+                  },
+                },
+              },
+            ]
+          : []
+      );
+
+    if (currentEvent?.line) {
+      editor.revealLineInCenter(
+        currentEvent.line
+      );
+    }
+  }, [codeTrace, codeSimulationStep]);
+
+  // =========================================================
+  // CODE SIMULATION PLAYBACK
+  // =========================================================
+
+  useEffect(() => {
+    if (
+      !codeSimulationPlaying ||
+      codeTrace.length === 0
+    ) {
+      return;
+    }
+
+    if (
+      codeSimulationStep >=
+      codeTrace.length - 1
+    ) {
+      setCodeSimulationPlaying(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setCodeSimulationStep(
+        (current) =>
+          Math.min(
+            current + 1,
+            codeTrace.length - 1
+          )
+      );
+    }, 1600);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [
+    codeSimulationPlaying,
+    codeSimulationStep,
+    codeTrace.length,
+  ]);
+
+  const currentCodeEvent =
+    codeTrace[codeSimulationStep] || null;
+
+  const startCodeSimulationPlayback = () => {
+    if (codeTrace.length === 0) {
+      return;
+    }
+
+    if (
+      codeSimulationStep >=
+      codeTrace.length - 1
+    ) {
+      setCodeSimulationStep(0);
+    }
+
+    setCodeSimulationPlaying(true);
+  };
+
+  const pauseCodeSimulationPlayback = () => {
+    setCodeSimulationPlaying(false);
+  };
+
+  const nextCodeSimulationStep = () => {
+    setCodeSimulationPlaying(false);
+
+    setCodeSimulationStep((current) =>
+      Math.min(
+        current + 1,
+        Math.max(codeTrace.length - 1, 0)
+      )
+    );
+  };
+
+  const previousCodeSimulationStep = () => {
+    setCodeSimulationPlaying(false);
+
+    setCodeSimulationStep((current) =>
+      Math.max(current - 1, 0)
+    );
+  };
+
+  const restartCodeSimulation = () => {
+    setCodeSimulationPlaying(false);
+    setCodeSimulationStep(0);
+  };
+
+  // =========================================================
+  // SIMULATION NAVIGATION
+  // =========================================================
 
   const nextSimulationStep = () => {
     setSimulationStep((current) =>
       Math.min(
         current + 1,
-        simulationSteps.length - 1
+        Math.max(simulationSteps.length - 1, 0)
       )
     );
   };
@@ -1047,7 +1362,7 @@ export default function ProblemWorkspacePage() {
           </div>
 
           {/* =================================================
-              CONCEPT MODULES — LEFT SIDE
+              CONCEPT MODULES
           ================================================= */}
 
           {concept && (
@@ -1075,8 +1390,6 @@ export default function ProblemWorkspacePage() {
                 Learn multiple approaches to solve
                 this type of problem.
               </p>
-
-              {/* MODULE LIST */}
 
               <div className="workspace-module-list">
 
@@ -1115,8 +1428,6 @@ export default function ProblemWorkspacePage() {
                 )}
 
               </div>
-
-              {/* SELECTED CONCEPT */}
 
               {currentApproach && (
                 <div className="workspace-concept-card">
@@ -1157,8 +1468,6 @@ export default function ProblemWorkspacePage() {
 
                 </div>
               )}
-
-              {/* AI VIDEO */}
 
               <div className="workspace-ai-video">
 
@@ -1206,8 +1515,6 @@ export default function ProblemWorkspacePage() {
         =================================================== */}
 
         <section className="workspace-editor-panel">
-
-          {/* EDITOR HEADER */}
 
           <div className="workspace-editor-header">
 
@@ -1260,8 +1567,6 @@ export default function ProblemWorkspacePage() {
 
           </div>
 
-          {/* FILE TOOLBAR */}
-
           <div className="workspace-editor-toolbar">
 
             <div className="workspace-file-tab">
@@ -1291,8 +1596,6 @@ export default function ProblemWorkspacePage() {
 
           </div>
 
-          {/* MONACO */}
-
           <div className="workspace-editor">
 
             <Editor
@@ -1305,10 +1608,13 @@ export default function ProblemWorkspacePage() {
               onChange={(value) =>
                 setCode(value ?? "")
               }
+              onMount={handleEditorMount}
               options={{
                 minimap: {
                   enabled: true,
                 },
+
+                glyphMargin: true,
 
                 fontSize: 14,
 
@@ -1384,7 +1690,20 @@ export default function ProblemWorkspacePage() {
                 onClick={handleSimulation}
               >
                 <Eye size={15} />
-                Simulate
+                Problem Simulate
+              </button>
+
+              <button
+                className="workspace-simulate-button"
+                onClick={handleCodeSimulation}
+                disabled={codeSimulationRunning}
+                title="Generate an animated execution video from your code"
+              >
+                <Video size={15} />
+
+                {codeSimulationRunning
+                  ? "Generating Video..."
+                  : "AI Code Video"}
               </button>
 
               <button
@@ -1421,8 +1740,6 @@ export default function ProblemWorkspacePage() {
 
           <div className="workspace-bottom">
 
-            {/* TABS */}
-
             <div className="workspace-bottom-tabs">
 
               <button
@@ -1450,7 +1767,7 @@ export default function ProblemWorkspacePage() {
                 }
               >
                 <FlaskConical size={15} />
-                Simulate
+                Simulation
               </button>
 
               <button
@@ -1544,68 +1861,570 @@ export default function ProblemWorkspacePage() {
             )}
 
             {/* =================================================
-                SIMULATE TAB
+                SIMULATION TAB
             ================================================= */}
 
             {activeTab === "simulate" && (
               <div className="workspace-simulation-panel">
 
-                <div className="workspace-simulation-heading">
+                {/* =================================================
+                    PROBLEM SIMULATION
+                ================================================= */}
 
-                  <div>
+                {simulationMode === "problem" && (
+                  <>
 
-                    <span>
-                      STEP-BY-STEP EXECUTION
-                    </span>
+                    <div className="workspace-simulation-heading">
 
-                    <h2>
-                      {currentSimulation?.title ||
-                        "Simulation"}
-                    </h2>
+                      <div>
+
+                        <span>
+                          PROBLEM EXPLANATION
+                        </span>
+
+                        <h2>
+                          {currentSimulation?.title ||
+                            "Understand the Problem"}
+                        </h2>
+
+                      </div>
+
+                      <div className="workspace-step-count">
+                        Step {simulationStep + 1} /{" "}
+                        {simulationSteps.length}
+                      </div>
+
+                    </div>
+
+                    <p className="workspace-simulation-description">
+                      {currentSimulation?.description}
+                    </p>
+
+                    <pre className="workspace-simulation-code">
+                      {currentSimulation?.code}
+                    </pre>
+
+                    <div className="workspace-simulation-controls">
+
+                      <button
+                        onClick={
+                          previousSimulationStep
+                        }
+                        disabled={
+                          simulationStep === 0
+                        }
+                      >
+                        ← Previous
+                      </button>
+
+                      <button
+                        onClick={
+                          nextSimulationStep
+                        }
+                        disabled={
+                          simulationStep ===
+                          simulationSteps.length - 1
+                        }
+                      >
+                        Next Step →
+                      </button>
+
+                    </div>
+
+                    <div
+                      style={{
+                        marginTop: "20px",
+                        padding: "18px",
+                        borderRadius: "12px",
+                        border:
+                          "1px solid rgba(255,255,255,0.08)",
+                      }}
+                    >
+
+                      <strong>
+                        🎥 AI Problem Explanation
+                      </strong>
+
+                      <p
+                        style={{
+                          marginTop: "8px",
+                        }}
+                      >
+                        Click <strong>Problem Simulate</strong> to walk
+                        through what the question is asking. Then use
+                        <strong> AI Code Video</strong> to animate your own
+                        solution line by line.
+                      </p>
+
+                    </div>
+
+                  </>
+                )}
+
+                {/* =================================================
+                    CODE SIMULATION
+                ================================================= */}
+
+                {simulationMode === "code" && (
+                  <div className="workspace-simulation-panel">
+
+                    <div className="workspace-simulation-heading">
+
+                      <div>
+
+                        <span>
+                          AI CODE VIDEO SIMULATION
+                        </span>
+
+                        <h2>
+                          {currentCodeEvent?.title ||
+                            "See Your Code Execute"}
+                        </h2>
+
+                      </div>
+
+                      <div className="workspace-step-count">
+
+                        {codeTrace.length > 0
+                          ? `Frame ${codeSimulationStep + 1} / ${codeTrace.length}`
+                          : "Waiting for trace"}
+
+                      </div>
+
+                    </div>
+
+                    <div
+                      style={{
+                        marginBottom: "16px",
+                        padding: "12px 14px",
+                        borderRadius: "10px",
+                        border:
+                          "1px solid rgba(139,92,246,0.22)",
+                        background:
+                          "linear-gradient(90deg, rgba(139,92,246,0.10), rgba(255,255,255,0.025))",
+                      }}
+                    >
+                      <strong>
+                        🎥 Mentora AI is turning your execution trace into a
+                        step-by-step video.
+                      </strong>
+
+                      <p
+                        style={{
+                          margin: "6px 0 0",
+                          opacity: 0.72,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        The editor highlights the current line while the
+                        animation explains what your code is doing and how
+                        the variables change.
+                      </p>
+                    </div>
+
+                    {codeSimulationError ? (
+
+                      <div
+                        style={{
+                          padding: "24px",
+                          borderRadius: "12px",
+                          border:
+                            "1px solid rgba(239,68,68,0.28)",
+                          background:
+                            "rgba(239,68,68,0.06)",
+                          textAlign: "center",
+                        }}
+                      >
+                        <XCircle size={30} />
+
+                        <h3>
+                          Code video generation failed
+                        </h3>
+
+                        <p
+                          style={{
+                            margin: "8px 0 16px",
+                            lineHeight: 1.6,
+                            opacity: 0.8,
+                          }}
+                        >
+                          {codeSimulationError}
+                        </p>
+
+                        <button
+                          className="workspace-run-button"
+                          onClick={handleCodeSimulation}
+                        >
+                          <Video size={15} />
+                          Try Again
+                        </button>
+                      </div>
+
+                    ) : codeSimulationRunning ? (
+
+                      <div
+                        style={{
+                          padding: "28px",
+                          borderRadius: "12px",
+                          border:
+                            "1px solid rgba(255,255,255,0.08)",
+                          textAlign: "center",
+                        }}
+                      >
+
+                        <FlaskConical size={30} />
+
+                        <h3>
+                          Mentora is generating your simulation...
+                        </h3>
+
+                        <p>
+                          Your code is being executed and
+                          the execution steps are being
+                          prepared.
+                        </p>
+
+                      </div>
+
+                    ) : codeTrace.length === 0 ? (
+
+                      <div
+                        style={{
+                          padding: "28px",
+                          borderRadius: "12px",
+                          border:
+                            "1px solid rgba(255,255,255,0.08)",
+                          textAlign: "center",
+                        }}
+                      >
+
+                        <FlaskConical size={30} />
+
+                        <h3>
+                          AI code video is ready
+                        </h3>
+
+                        <p>
+                          Click <strong>AI Code Video</strong> to execute your
+                          solution and generate the animated execution trace.
+                        </p>
+
+                      </div>
+
+                    ) : (
+
+                      <>
+
+                        {/* CURRENT EVENT */}
+
+                        <div
+                          style={{
+                            padding: "18px",
+                            borderRadius: "12px",
+                            border:
+                              "1px solid rgba(139,92,246,0.28)",
+                            background:
+                              "rgba(139,92,246,0.07)",
+                            marginBottom: "16px",
+                          }}
+                        >
+
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: "12px",
+                              marginBottom: "10px",
+                            }}
+                          >
+
+                            <span
+                              style={{
+                                fontSize: "11px",
+                                fontWeight: 700,
+                                letterSpacing: "0.08em",
+                                opacity: 0.7,
+                              }}
+                            >
+                              {currentCodeEvent?.event ||
+                                "EXECUTION"}
+                            </span>
+
+                            {currentCodeEvent?.line > 0 && (
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  opacity: 0.7,
+                                }}
+                              >
+                                Line {currentCodeEvent.line}
+                              </span>
+                            )}
+
+                          </div>
+
+                          <h3
+                            style={{
+                              margin: "0 0 8px",
+                            }}
+                          >
+                            {currentCodeEvent?.title}
+                          </h3>
+
+                          <p
+                            style={{
+                              margin: 0,
+                              lineHeight: 1.6,
+                              opacity: 0.85,
+                            }}
+                          >
+                            {currentCodeEvent?.description}
+                          </p>
+
+                          {currentCodeEvent?.code && (
+                            <pre
+                              style={{
+                                margin: "14px 0 0",
+                                padding: "12px",
+                                borderRadius: "9px",
+                                overflowX: "auto",
+                                background:
+                                  "rgba(0,0,0,0.28)",
+                                border:
+                                  "1px solid rgba(255,255,255,0.06)",
+                                fontSize: "12px",
+                                lineHeight: 1.55,
+                              }}
+                            >
+                              {currentCodeEvent.code}
+                            </pre>
+                          )}
+
+                        </div>
+
+                        {/* VARIABLES */}
+
+                        {currentCodeEvent?.variables &&
+                          Object.keys(
+                            currentCodeEvent.variables
+                          ).length > 0 && (
+
+                            <div
+                              style={{
+                                marginBottom: "16px",
+                              }}
+                            >
+
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  fontWeight: 700,
+                                  letterSpacing: "0.08em",
+                                  marginBottom: "10px",
+                                  opacity: 0.7,
+                                }}
+                              >
+                                VARIABLES
+                              </div>
+
+                              <div
+                                style={{
+                                  display: "grid",
+                                  gridTemplateColumns:
+                                    "repeat(auto-fit, minmax(130px, 1fr))",
+                                  gap: "10px",
+                                }}
+                              >
+
+                                {Object.entries(
+                                  currentCodeEvent.variables
+                                ).map(
+                                  ([name, value]) => (
+
+                                    <div
+                                      key={name}
+                                      style={{
+                                        padding: "12px",
+                                        borderRadius: "10px",
+                                        border:
+                                          "1px solid rgba(255,255,255,0.08)",
+                                        background:
+                                          "rgba(255,255,255,0.025)",
+                                      }}
+                                    >
+
+                                      <div
+                                        style={{
+                                          fontSize: "11px",
+                                          opacity: 0.55,
+                                          marginBottom: "5px",
+                                        }}
+                                      >
+                                        {name}
+                                      </div>
+
+                                      <code
+                                        style={{
+                                          fontSize: "13px",
+                                          wordBreak:
+                                            "break-word",
+                                        }}
+                                      >
+                                        {typeof value ===
+                                        "object"
+                                          ? JSON.stringify(
+                                              value
+                                            )
+                                          : String(value)}
+                                      </code>
+
+                                    </div>
+
+                                  )
+                                )}
+
+                              </div>
+
+                            </div>
+
+                          )}
+
+                        {/* TIMELINE */}
+
+                        <div
+                          style={{
+                            marginBottom: "16px",
+                          }}
+                        >
+
+                          <div
+                            style={{
+                              height: "5px",
+                              borderRadius: "99px",
+                              background:
+                                "rgba(255,255,255,0.08)",
+                              overflow: "hidden",
+                            }}
+                          >
+
+                            <div
+                              style={{
+                                height: "100%",
+                                width: `${
+                                  ((codeSimulationStep + 1) /
+                                    codeTrace.length) *
+                                  100
+                                }%`,
+                                borderRadius: "99px",
+                                background:
+                                  "#8b5cf6",
+                                transition:
+                                  "width 0.25s ease",
+                              }}
+                            />
+
+                          </div>
+
+                        </div>
+
+                        {/* CONTROLS */}
+
+                        <div
+                          className="workspace-simulation-controls"
+                          style={{
+                            marginTop: "8px",
+                            display: "flex",
+                            gap: "8px",
+                            flexWrap: "wrap",
+                          }}
+                        >
+
+                          <button
+                            onClick={
+                              previousCodeSimulationStep
+                            }
+                            disabled={
+                              codeSimulationStep === 0
+                            }
+                          >
+                            ← Previous
+                          </button>
+
+                          <button
+                            onClick={
+                              codeSimulationPlaying
+                                ? pauseCodeSimulationPlayback
+                                : startCodeSimulationPlayback
+                            }
+                          >
+                            {codeSimulationPlaying
+                              ? "❚❚ Pause"
+                              : "▶ Play"}
+                          </button>
+
+                          <button
+                            onClick={
+                              nextCodeSimulationStep
+                            }
+                            disabled={
+                              codeSimulationStep >=
+                              codeTrace.length - 1
+                            }
+                          >
+                            Next →
+                          </button>
+
+                          <button
+                            onClick={
+                              restartCodeSimulation
+                            }
+                          >
+                            ↻ Restart
+                          </button>
+
+                        </div>
+
+                        {/* AI EXPLANATION */}
+
+                        <div
+                          style={{
+                            marginTop: "18px",
+                            padding: "16px",
+                            borderRadius: "12px",
+                            border:
+                              "1px solid rgba(255,255,255,0.08)",
+                          }}
+                        >
+
+                          <div
+                            style={{
+                              fontWeight: 700,
+                              marginBottom: "6px",
+                            }}
+                          >
+                            🧠 Mentora AI Narration
+                          </div>
+
+                          <p
+                            style={{
+                              margin: 0,
+                              lineHeight: 1.6,
+                              opacity: 0.8,
+                            }}
+                          >
+                            {currentCodeEvent?.description ||
+                              "Mentora will explain what your code is doing at each execution step."}
+                          </p>
+
+                        </div>
+
+                      </>
+
+                    )}
 
                   </div>
-
-                  <div className="workspace-step-count">
-                    Step {simulationStep + 1} /{" "}
-                    {simulationSteps.length}
-                  </div>
-
-                </div>
-
-                <p className="workspace-simulation-description">
-                  {currentSimulation?.description}
-                </p>
-
-                <pre className="workspace-simulation-code">
-                  {currentSimulation?.code}
-                </pre>
-
-                <div className="workspace-simulation-controls">
-
-                  <button
-                    onClick={
-                      previousSimulationStep
-                    }
-                    disabled={
-                      simulationStep === 0
-                    }
-                  >
-                    ← Previous
-                  </button>
-
-                  <button
-                    onClick={
-                      nextSimulationStep
-                    }
-                    disabled={
-                      simulationStep ===
-                      simulationSteps.length - 1
-                    }
-                  >
-                    Next Step →
-                  </button>
-
-                </div>
+                )}
 
               </div>
             )}
@@ -1639,7 +2458,9 @@ export default function ProblemWorkspacePage() {
               </div>
             )}
 
-            {/* TEST RESULTS */}
+            {/* =================================================
+                TEST RESULTS
+            ================================================= */}
 
             {testResults.length > 0 && (
               <div className="workspace-test-results">
@@ -1651,13 +2472,16 @@ export default function ProblemWorkspacePage() {
                   </span>
 
                   <span>
+
                     {
                       testResults.filter(
                         (result) =>
                           result.passed
                       ).length
                     }{" "}
+
                     / {testResults.length} passed
+
                   </span>
 
                 </div>

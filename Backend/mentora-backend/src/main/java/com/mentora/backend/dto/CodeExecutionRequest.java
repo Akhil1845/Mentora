@@ -2,6 +2,7 @@ package com.mentora.backend.dto;
 
 public class CodeExecutionRequest {
 
+    private Long problemId;
     private String language;
     private String code;
     private String input;
@@ -10,13 +11,23 @@ public class CodeExecutionRequest {
     }
 
     public CodeExecutionRequest(
+            Long problemId,
             String language,
             String code,
             String input
     ) {
+        this.problemId = problemId;
         this.language = language;
         this.code = code;
         this.input = input;
+    }
+
+    public Long getProblemId() {
+        return problemId;
+    }
+
+    public void setProblemId(Long problemId) {
+        this.problemId = problemId;
     }
 
     public String getLanguage() {
